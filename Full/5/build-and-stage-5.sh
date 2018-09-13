@@ -4,7 +4,7 @@
  
 # Read in properties file
  
-./release-config.properties
+. ./release-config.properties
  
 #############################################################################
  
