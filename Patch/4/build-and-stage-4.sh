@@ -134,7 +134,7 @@ cd -
  
 #################################################################################
  
-RELEASE_DIR=pwd
+RELEASE_DIR=$(pwd)
  
 # Copy Source and Javadoc
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara/payara-${VERSION}-sources.jar
