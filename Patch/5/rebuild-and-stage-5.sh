@@ -23,23 +23,14 @@ git pull ${GITHUB_REMOTE} master
 git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
 git pull ${BITBUCKET_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
   
-# Create new branch
-git branch -D Payara-${VERSION}-Release
-git branch Payara-${VERSION}-Release
+# Checkout release branch
 git checkout Payara-${VERSION}-Release
+git pull ${BITBUCKET_REMOTE} Payara-${VERSION}-Release
   
-# Increment Versions
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
-sed -i "s/update_version>${OLD_UPDATE_VERSION}</update_version>${UPDATE_VERSION}</g" appserver/pom.xml
-sed -i "s/update_version=${OLD_UPDATE_VERSION}/update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
-  
-# Commit changes
-git commit -a -m "Increment version numbers"
-git tag -d payara-server-${VERSION}.RC${RC_VERSION}
+# Tag release
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
-# Push changes
-git push ${BITBUCKET_REMOTE} Payara-${VERSION}-Release --force
+# Push tag
 git push ${BITBUCKET_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
@@ -54,7 +45,15 @@ cd -
  
 ################################################################################
   
-# Create ReleaseDirs
+# Recreate ReleaseDirs
+rm -rf Payara
+rm -rf Payara-Web
+rm -rf Payara-ML
+rm -rf Payara-Web-ML
+rm -rf Payara-Micro
+rm -rf Payara-Embedded-All
+rm -rf Payara-Embedded-Web
+rm -rf SourceExport
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML
