@@ -50,7 +50,7 @@ git checkout payara-blue
 git checkout -b Increment-Version-Numbers-Blue-4.${NEXT_MINOR_VERSION}
   
 # Update Version Numbers for payara-blue branch
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}/g"
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}-SNAPSHOT/g"
 sed -i "s/minor_version>${OLD_MINOR_VERSION}-SNAPSHOT</minor_version>${NEXT_MINOR_VERSION}-SNAPSHOT</g" appserver/pom.xml
 sed -i "s/minor_version=${OLD_MINOR_VERSION}-SNAPSHOT/minor_version=${NEXT_MINOR_VERSION}-SNAPSHOT/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
