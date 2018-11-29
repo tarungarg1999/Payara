@@ -6,32 +6,17 @@
 . ./release-config.properties
  
 #############################################################################
- 
-### Create branches, Update version, and Build ###
+
+### Checkout correct version and build ###
 # Move to Git Repo
 cd ${REPO_DIR}
-  
+
 # Reset and Cleanup
 git reset --hard HEAD
 git clean -fdx
-  
-# Update Branches
-git fetch ${GITHUB_REMOTE}
-git fetch ${BITBUCKET_REMOTE}
-git checkout Payara4
-git pull ${GITHUB_REMOTE} Payara4
-git checkout payara-blue
-git pull ${GITHUB_REMOTE} payara-blue
-  
-# Checkout release branch
-git checkout Payara-Blue-${VERSION}-Release
-git pull ${BITBUCKET_REMOTE} Payara-Blue-${VERSION}-Release
-  
-# Tag release
-git tag payara-blue-${VERSION}.RC${RC_VERSION}
-  
-# Push tag
-git push ${BITBUCKET_REMOTE} payara-blue-${VERSION}.RC${RC_VERSION} --force
+
+# Checkout release tag
+git checkout payara-server-${VERSION}.RC${RC_VERSION}
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
