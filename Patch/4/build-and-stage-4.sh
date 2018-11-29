@@ -47,6 +47,7 @@ export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
  
 # Build
+MAVEN_OPTS="-Xmx2G -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts" \
 mvn clean install -PBuildExtras -Dbuild.number=${BUILD_NUMBER} -U
   
 # Move back
@@ -312,6 +313,7 @@ export JAVA_HOME="${JDK7_PATH}"
  
 cd ${REPO_DIR}
  
+MAVEN_OPTS="-Xmx2G -XX:MaxPermSize=512m -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts" \
 mvn clean install -PBuildExtras -Dbuild.number=${BUILD_NUMBER} -U
  
 cd -
