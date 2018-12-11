@@ -8,7 +8,10 @@
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
- 
+
+# Remove the base pom if it's present to prevent error
+rm pom.xml
+
 # Upload the release to Nexus (Patches)
 mvn deploy:deploy-file -Dfile=Payara/payara-${VERSION}.zip -Dsources=Payara/payara-${VERSION}-sources.jar -Djavadoc=Payara/payara-${VERSION}-javadoc.jar -DpomFile=Payara/payara-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-patches/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore
 mvn deploy:deploy-file -Dfile=Payara/payara-${VERSION}-jdk7.zip -Dclassifier=jdk7 -DpomFile=Payara/payara-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-patches/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore
