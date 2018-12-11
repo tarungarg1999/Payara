@@ -7,7 +7,7 @@
  
 #############################################################################
  
-### Create branches, Update version, and Build ###
+### Checkout correct version and build ###
 # Move to Git Repo
 cd ${REPO_DIR}
   
@@ -15,25 +15,9 @@ cd ${REPO_DIR}
 git reset --hard HEAD
 git clean -fdx
   
-# Update Branches
-git fetch ${GITHUB_REMOTE}
-git fetch ${BITBUCKET_REMOTE}
-git checkout Payara4
-git pull ${GITHUB_REMOTE} Payara4
-git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git pull ${BITBUCKET_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
-  
-# Checkout and update release branch
-git checkout Payara-${VERSION}-Release
-git pull ${BITBUCKET_REMOTE} Payara-${VERSION}-Release
-  
-# Tag release
-git tag -d payara-server-${VERSION}.RC${RC_VERSION}
-git tag payara-server-${VERSION}.RC${RC_VERSION}
-  
-# Push changes
-git push ${BITBUCKET_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
- 
+# Checkout release tag
+git checkout payara-server-${VERSION}.RC${RC_VERSION}
+
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"

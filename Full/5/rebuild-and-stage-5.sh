@@ -5,32 +5,19 @@
 # Read in properties file
  
 . ./release-config.properties
- 
+
 #############################################################################
- 
-### Create branches, Update version, and Build ###
+
+### Checkout correct version and build ###
 # Move to Git Repo
 cd ${REPO_DIR}
-  
+
 # Reset and Cleanup
 git reset --hard HEAD
 git clean -fdx
-  
-# Update Branches
-git fetch ${GITHUB_REMOTE}
-git fetch ${BITBUCKET_REMOTE}
-git checkout master
-git pull ${GITHUB_REMOTE} master
-  
-# Checkout release branch
-git checkout Payara-${VERSION}-Release
-git pull ${GITHUB_REMOTE} Payara-${VERSION}-Release
-  
-# Tag release
-git tag payara-server-${VERSION}.RC${RC_VERSION}
-  
-# Push tag
-git push ${GITHUB_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
+
+# Checkout release tag
+git checkout payara-server-${VERSION}.RC${RC_VERSION}
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
