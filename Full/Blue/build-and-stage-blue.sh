@@ -69,7 +69,7 @@ export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
  
 # Build
-MAVEN_OPTS="-Xmx2G -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts -Djdk.tls.client.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2" \
+MAVEN_OPTS="-Xmx3G -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts -Djdk.tls.client.protocols=TLSv1,TLSv1.1,TLSv1.2 -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2" \
 mvn clean install -PBuildExtras -Dbuild.number=${BUILD_NUMBER}
   
 # Move back
