@@ -31,7 +31,7 @@ find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESC
 sed -i "s/payara_version>${OLD_MINOR_VERSION}-SNAPSHOT</payara_version>${OLD_MINOR_VERSION}</g" appserver/pom.xml
 sed -i "s/payara_version=${OLD_MINOR_VERSION}-SNAPSHOT/payara_version=${OLD_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
-sed -i "s/${PREVIOUS_MINOR_VERSION}/${MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
   
 # Commit changes
 git commit -a -m "Increment version numbers"
@@ -52,7 +52,7 @@ find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESC
 sed -i "s/payara_version>${OLD_MINOR_VERSION}-SNAPSHOT</payara_version>${NEXT_MINOR_VERSION}-SNAPSHOT</g" appserver/pom.xml
 sed -i "s/payara_version=${OLD_MINOR_VERSION}-SNAPSHOT/payara_version=${NEXT_MINOR_VERSION}-SNAPSHOT/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
-sed -i "s/${PREVIOUS_MINOR_VERSION}/${MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
  
 # Commit and push
 git add *
