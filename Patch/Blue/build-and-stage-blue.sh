@@ -32,8 +32,8 @@ git checkout Payara-Blue-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
-sed -i "s/update_version>${OLD_UPDATE_VERSION}</update_version>${UPDATE_VERSION}</g" appserver/pom.xml
-sed -i "s/update_version=${OLD_UPDATE_VERSION}/update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/payara_update_version>${OLD_UPDATE_VERSION}</payara_update_version>${UPDATE_VERSION}</g" appserver/pom.xml
+sed -i "s/payara_update_version=${OLD_UPDATE_VERSION}/payara_update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
   
 # Commit changes
 git commit -a -m "Increment version numbers"
