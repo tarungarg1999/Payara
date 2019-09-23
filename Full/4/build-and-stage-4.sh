@@ -85,6 +85,7 @@ mkdir Payara-Embedded-All
 mkdir Payara-Embedded-Web
 mkdir SourceExport
 mkdir Payara-API
+mkdir Payara-EJB-HTTP-Client
   
 # Copy Distributions
 cp ${REPO_DIR}/appserver/distributions/payara/target/payara.zip Payara/
@@ -151,6 +152,11 @@ cd ..
 cp ${REPO_DIR}/api/payara-api/target/payara-api.jar Payara-API/payara-api-${VERSION}.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-javadoc.jar Payara-API/payara-api-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-sources.jar Payara-API/payara-api-${VERSION}-sources.jar
+ 
+# Copy EJB HTTP Artefacts
+cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar
+cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client-javadoc.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
+cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client-sources.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar
  
 # Create Source and Javadoc
 cd ${REPO_DIR}
@@ -338,6 +344,15 @@ sed -i "s/name>Payara Server</name>Payara API</g" Payara-API/payara-api-${VERSIO
 sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Artefact that exposes public API of Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
  
+cp pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+sed -i "s/artifactId>payara</artifactId>ejb-http-client</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.server.internal.ejb</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${VERSION}</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${VERSION}</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+sed -i "s/name>Payara Server</name>Payara EJB HTTP Client</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+sed -i "s/packaging>zip</packaging>jar</g" Payara-EJB-HTTP-Client-${VERSION}.pom
+sed -i "s/description>Full Distribution of the Payara Project</description>Module providing support for EJB HTTP Client</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+ 
 ################################################################################
  
 # Building JDK7 release
@@ -455,3 +470,5 @@ mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Embedd
 mvn deploy:deploy-file -DgroupId=fish.payara.extras -DartifactId=payara-source -Dversion=${VERSION}.RC${RC_VERSION} -Dpackaging=zip -Dfile=SourceExport/payara-source-${VERSION}.zip -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore
  
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-API/payara-api-${VERSION}.jar -DpomFile=Payara-API/payara-api-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-API/payara-api-${VERSION}-sources.jar -Djavadoc=Payara-API/payara-api-${VERSION}-javadoc.jar
+
+mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar -DpomFile=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar -Djavadoc=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
