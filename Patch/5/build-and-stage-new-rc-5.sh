@@ -321,14 +321,9 @@ sed -i "s/name>Payara Server</name>Payara API</g" Payara-API.payara-api-${VERSIO
 sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Artefact exposing the API for Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
 
-cp pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
-sed -i "s/artifactId>payara</artifactId>ejb-http-client</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
-sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.server.internal.ejb</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
-sed -i "s/version>${OLD_VERSION}</version>${VERSION}</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
-sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${VERSION}</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
-sed -i "s/name>Payara Server</name>Payara EJB HTTP Client</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
-sed -i "s/packaging>zip</packaging>jar</g" Payara-EJB-HTTP-Client-${VERSION}.pom
-sed -i "s/description>Full Distribution of the Payara Project</description>Module providing support for EJB HTTP Client</g" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/\.flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+sed -i "i43<tag>payara-server-${VERSION}</tag>" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+sed -i "i44<packaging>jar</packaging>" Payara-EJB-HTTP-Client-${VERSION}.pom
  
 ################################################################################
   
