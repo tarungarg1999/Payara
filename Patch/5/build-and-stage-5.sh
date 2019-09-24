@@ -321,8 +321,6 @@ sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Artefact that exposes public API of Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
  
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/\.flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
-sed -i "43a<tag>payara-server-${VERSION}</tag>" Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
-sed -i "44a<packaging>jar</packaging>" Payara-EJB-HTTP-Client-${VERSION}.pom
  
 ################################################################################
   
