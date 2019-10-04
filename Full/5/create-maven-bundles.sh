@@ -52,7 +52,7 @@ gpg2 -ab Payara-API/payara-api-${VERSION}-javadoc.jar
  
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar
-gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client${VERSION}-sources.jar
+gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
  
 # Create JAR bundles
