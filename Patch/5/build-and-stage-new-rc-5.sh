@@ -57,6 +57,7 @@ rm -rf Payara-Embedded-Web
 rm -rf SourceExport
 rm -rf Payara-API
 rm -rf Payara-EJB-HTTP-Client
+rm -rf Payara-Appclient
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML
@@ -67,6 +68,7 @@ mkdir Payara-Embedded-Web
 mkdir SourceExport
 mkdir Payara-API
 mkdir Payara-EJB-HTTP-Client
+mkdir Payara-Appclient
 
 # Copy Distributions
 cp ${REPO_DIR}/appserver/distributions/payara/target/payara.zip Payara/
@@ -82,7 +84,14 @@ cd Payara
 unzip payara.zip
 zip -r payara-${VERSION}.zip payara5/
 tar -czvf payara-${VERSION}.tar.gz payara5/
+
+# Create and copy appclient
+./payara5/glassfish/bin/package-appclient
+cp payara5/glassfish/lib/appclient.jar ../Payara-Appclient/payara-client-${VERSION}.jar
+
+# Cleanup
 rm -rf payara5
+
 rm -rf payara.zip
 cd ..
    
@@ -154,7 +163,8 @@ cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Web-ML/payara-web-ml-
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Micro/payara-micro-${VERSION}-sources.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Embedded-All/payara-embedded-all-${VERSION}-sources.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Embedded-Web/payara-embedded-web-${VERSION}-sources.jar
-  
+cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Appclient/payara-client-${VERSION}-sources.jar
+
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara/payara-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-ML/payara-ml-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Web/payara-web-${VERSION}-javadoc.jar
@@ -162,7 +172,8 @@ cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Web-ML/payara-web-ml-
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Micro/payara-micro-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Embedded-All/payara-embedded-all-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Embedded-Web/payara-embedded-web-${VERSION}-javadoc.jar
- 
+cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Appclient/payara-client-${VERSION}-javadoc.jar
+
 # Export Source
 cd ${REPO_DIR}
 git archive --format zip --output ${RELEASE_DIR}/SourceExport/payara-source-${VERSION}.zip Payara-${VERSION}-Release
@@ -321,6 +332,15 @@ sed -i "s/name>Payara Server</name>Payara API</g" Payara-API.payara-api-${VERSIO
 sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Artefact exposing the API for Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
 
+cp pom.xml Payara-Appclient/payara-client-${VERSION}.pom
+sed -i "s/artifactId>payara</artifactId>payara-client</g" Payara-Appclient/payara-client-${VERSION}.pom
+sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.server.appclient</g" Payara-Appclient/payara-client-${VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${VERSION}</g" Payara-Appclient/payara-client-${VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${VERSION}</g" Payara-Appclient/payara-client-${VERSION}.pom
+sed -i "s/name>Payara Server</name>Payara Appclient</g" Payara-Appclient/payara-client-${VERSION}.pom
+sed -i "s/packaging>zip</packaging>jar</g" Payara-Appclient/payara-client-${VERSION}.pom
+sed -i "s/description>Full Distribution of the Payara Project</description>Appclient for Payara Server</g" Payara-Appclient/payara-client-${VERSION}.pom
+
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/\.flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
  
 ################################################################################
@@ -351,3 +371,5 @@ mvn deploy:deploy-file -DgroupId=fish.payara.extras -DartifactId=payara-source -
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-API/payara-api-${VERSION}.jar -DpomFile=Payara-API/payara-api-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-API/payara-api-${VERSION}-sources.jar -Djavadoc=Payara-API/payara-api-${VERSION}-javadoc.jar
 
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar -DpomFile=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar -Djavadoc=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
+
+mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Appclient/payara-client-${VERSION}.jar -DpomFile=Payara-Appclient/payara-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-Appclient/payara-client-${VERSION}-sources.jar -Djavadoc=Payara-Appclient/payara-client-${VERSION}-javadoc.jar

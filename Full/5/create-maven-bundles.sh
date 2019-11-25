@@ -54,6 +54,11 @@ gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
+
+gpg2 -ab Payara-Appclient/payara-client-${VERSION}.pom
+gpg2 -ab Payara-Appclient/payara-client-${VERSION}.jar
+gpg2 -ab Payara-Appclient/payara-client-${VERSION}-sources.jar
+gpg2 -ab Payara-Appclient/payara-client-${VERSION}-javadoc.jar
  
 # Create JAR bundles
 jar -cvf Payara/bundle.jar -C Payara payara-${VERSION}.zip -C Payara payara-${VERSION}.zip.asc -C Payara payara-${VERSION}-sources.jar -C Payara payara-${VERSION}-sources.jar.asc -C Payara payara-${VERSION}-javadoc.jar -C Payara payara-${VERSION}-javadoc.jar.asc -C Payara payara-${VERSION}.pom -C Payara payara-${VERSION}.pom.asc
@@ -73,3 +78,5 @@ jar -cvf Payara-Embedded-Web/bundle.jar -C Payara-Embedded-Web payara-embedded-w
 jar -cvf Payara-API/bundle.jar -C Payara-API payara-api-${VERSION}.jar -C Payara-API payara-api-${VERSION}.jar.asc -C Payara-API payara-api-${VERSION}-sources.jar -C Payara-API payara-api-${VERSION}-sources.jar.asc -C Payara-API payara-api-${VERSION}-javadoc.jar -C Payara-API payara-api-${VERSION}-javadoc.jar.asc -C Payara-API payara-api-${VERSION}.pom -C Payara-API payara-api-${VERSION}.pom.asc
 
 jar -cvf Payara-EJB-HTTP-Client.jar -C Payara-EJB-HTTP-Client ejb-http-client-${VERSION}.jar -C Payara-EJB-HTTP-Client ejb-http-client-${VERSION}.jar.asc -C Payara-EJB-HTTP-Client ejb-http-client-${VERSION}-sources.jar -C Payara-EJB-HTTP-Client ejb-http-client-${VERSION}-sources.jar.asc -C Payara-EJB-HTTP-Client ejb-http-client-${VERSION}-javadoc.jar -C Payara-EJB-HTTP-Client ejb-http-client-${VERSION}-javadoc.jar.asc -C Payara-EJB-HTTP-Client ejb-http-client-${VERSION}.pom -C Payara-EJB-HTTP-Client ejb-http-client-${VERSION}.pom.asc
+
+jar -cvf Payara-Appclient/bundle.jar -C Payara-Appclient payara-client-${VERSION}.jar -C Payara-Appclient payara-client-${VERSION}.jar.asc -C Payara-Appclient payara-client-${VERSION}-sources.jar -C Payara-Appclient payara-client-${VERSION}-sources.jar.asc -C Payara-Appclient payara-client-${VERSION}-javadoc.jar -C Payara-Appclient payara-client-${VERSION}-javadoc.jar.asc -C Payara-Appclient payara-client-${VERSION}.pom -C Payara-Appclient payara-client-${VERSION}.pom.asc
