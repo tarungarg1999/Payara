@@ -339,7 +339,7 @@ sed -i "s/name>Payara Server</name>Payara Appclient</g" Payara-Appclient/payara-
 sed -i "s/packaging>zip</packaging>jar</g" Payara-Appclient/payara-client-${VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Appclient for Payara Server</g" Payara-Appclient/payara-client-${VERSION}.pom
 
-cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/\.flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
  
 ################################################################################
   
