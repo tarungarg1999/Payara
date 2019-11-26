@@ -87,6 +87,7 @@ mkdir SourceExport
 mkdir Payara-API
 mkdir Payara-EJB-HTTP-Client
 mkdir Payara-Appclient
+mkdir Payara-BOM
   
 # Copy Distributions
 cp ${REPO_DIR}/appserver/distributions/payara/target/payara.zip Payara/
@@ -359,6 +360,7 @@ sed -i "s/packaging>zip</packaging>jar</g" Payara-Appclient/payara-client-${VERS
 sed -i "s/description>Full Distribution of the Payara Project</description>Appclient for Payara Server</g" Payara-Appclient/payara-client-${VERSION}.pom
 
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
+cp ${REPO_DIR}/api/payara-bom/target/flattened-pom.xml Payara-BOM/payara-bom-${VERSION}.pom
 
 ################################################################################
   
@@ -391,3 +393,4 @@ mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-EJB-HT
 
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Appclient/payara-client-${VERSION}.jar -DpomFile=Payara-Appclient/payara-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-Appclient/payara-client-${VERSION}-sources.jar -Djavadoc=Payara-Appclient/payara-client-${VERSION}-javadoc.jar
 
+mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -DpomFile=Payara-BOM/payara-bom-${VERSION}.pom -Dfile=Payara-BOM/payara-bom-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore
