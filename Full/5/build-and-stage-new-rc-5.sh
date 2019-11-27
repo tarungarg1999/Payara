@@ -57,7 +57,7 @@ rm -rf SourceExport
 rm -rf Payara-API
 rm -rf Payara-EJB-HTTP-Client
 rm -rf Payara-Appclient
-rm-rf Payara-BOM
+rm -rf Payara-BOM
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML
