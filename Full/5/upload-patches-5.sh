@@ -38,4 +38,4 @@ mvn deploy:deploy-file -Dversion=${VERSION} -Dfile=Payara-EJB-HTTP-Client/ejb-ht
 
 mvn deploy:deploy-file -Dversion=${VERSION} -Dfile=Payara-Appclient/payara-client-${VERSION}.jar -DpomFile=Payara-Appclient/payara-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-patches/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-Appclient/payara-client-${VERSION}-sources.jar -Djavadoc=Payara-Appclient/payara-client-${VERSION}-javadoc.jar
 
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -DpomFile=Payara-BOM/payara-bom-${VERSION}.pom -Dfile=Payara-BOM/payara-bom-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-patches/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore
+mvn deploy:deploy-file -Dversion=${VERSION} -DpomFile=Payara-BOM/payara-bom-${VERSION}.pom -Dfile=Payara-BOM/payara-bom-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-patches/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore
