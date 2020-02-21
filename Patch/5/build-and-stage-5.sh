@@ -48,7 +48,7 @@ export JAVA_HOME="${JDK8_PATH}"
  
 # Build
 MAVEN_OPTS="-Xmx2G -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts" \
-mvn clean install -PBuildExtras -Dbuild.number=${BUILD_NUMBER} -U
+mvn clean install -PBuildExtras,enterprise -Dbuild.number=${BUILD_NUMBER} -U
   
 # Move back
 cd -
@@ -114,7 +114,7 @@ cd Payara-Web-ML
 unzip payara-web-ml.zip
 zip -r payara-web-ml-${VERSION}.zip payara5/
 tar -czvf payara-web-ml-${VERSION}.tar.gz payara5/
-rm -rf payara41
+rm -rf payara5
 rm -rf payara-web-ml.zip
 cd ..
    
