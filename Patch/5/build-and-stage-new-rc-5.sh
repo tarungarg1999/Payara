@@ -24,8 +24,8 @@ git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
 git pull ${BITBUCKET_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
   
 # Checkout release branch
-git checkout Payara-${VERSION}-Release
-git pull ${BITBUCKET_REMOTE} Payara-${VERSION}-Release
+git checkout PAYARA-${JIRA_NUMBER}-${VERSION}-Release
+git pull ${BITBUCKET_REMOTE} PAYARA-${JIRA_NUMBER}-${VERSION}-Release
   
 # Tag release
 git tag payara-server-${VERSION}.RC${RC_VERSION}

@@ -23,8 +23,8 @@ git checkout master
 git pull ${GITHUB_REMOTE} master
   
 # Checkout release branch
-git checkout Payara-${VERSION}-Release
-git pull ${GITHUB_REMOTE} Payara-${VERSION}-Release
+git checkout PAYARA-${JIRA_NUMBER}-${VERSION}-Release
+git pull ${GITHUB_REMOTE} PAYARA-${JIRA_NUMBER}-${VERSION}-Release
   
 # Tag release
 git tag payara-server-${VERSION}.RC${RC_VERSION}

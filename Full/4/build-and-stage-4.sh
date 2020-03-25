@@ -22,9 +22,9 @@ git checkout Payara4
 git pull ${GITHUB_REMOTE} Payara4
   
 # Create new branch
-git branch -D Payara-${VERSION}-Release
-git branch Payara-${VERSION}-Release
-git checkout Payara-${VERSION}-Release
+git branch -D PAYARA-${JIRA_NUMBER}-${VERSION}-Release
+git branch PAYARA-${JIRA_NUMBER}-${VERSION}-Release
+git checkout PAYARA-${JIRA_NUMBER}-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
@@ -34,7 +34,7 @@ sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/sr
 sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
   
 # Commit changes
-git commit -a -m "Increment version numbers"
+git commit -a -m "PAYARA-${JIRA_NUMBER} Increment version numbers"
 git tag -d payara-server-${VERSION}.RC${RC_VERSION}
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
@@ -43,9 +43,9 @@ git push ${BITBUCKET_REMOTE} Payara-${VERSION}-Release --force
 git push ${BITBUCKET_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
   
 # Create Version Increment Branch
-git branch -D Increment-Version-Numbers-4.${NEXT_MINOR_VERSION}
+git branch -D PAYARA-${JIRA_NUMBER}-Increment-Version-Numbers-4.${NEXT_MINOR_VERSION}
 git checkout Payara4
-git checkout -b Increment-Version-Numbers-4.${NEXT_MINOR_VERSION}
+git checkout -b PAYARA-${JIRA_NUMBER}-Increment-Version-Numbers-4.${NEXT_MINOR_VERSION}
   
 # Update Version Numbers for Payara4 branch
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}-SNAPSHOT/g"
@@ -56,11 +56,11 @@ sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/a
  
 # Commit and push
 git add *
-git commit -m "Increment version numbers"
-git push ${GITHUB_REMOTE} Increment-Version-Numbers-4.${NEXT_MINOR_VERSION} --force
+git commit -m "PAYARA-${JIRA_NUMBER} Increment version numbers"
+git push ${GITHUB_REMOTE} PAYARA-${JIRA_NUMBER}-Increment-Version-Numbers-4.${NEXT_MINOR_VERSION} --force
   
 # Checkout Release Branch again
-git checkout Payara-${VERSION}-Release
+git checkout PAYARA-${JIRA_NUMBER}-${VERSION}-Release
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"

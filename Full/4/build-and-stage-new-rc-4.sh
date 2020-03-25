@@ -22,8 +22,8 @@ git checkout Payara4
 git pull ${GITHUB_REMOTE} Payara4
   
 # Create release branch
-git checkout Payara-${VERSION}-Release
-git pull ${BITBUCKET_REMOTE} Payara-${VERSION}-Release
+git checkout PAYARA-${JIRA_NUMBER}-${VERSION}-Release
+git pull ${BITBUCKET_REMOTE} PAYARA-${JIRA_NUMBER}-${VERSION}-Release
   
 # Tag release
 git tag payara-server-${VERSION}.RC${RC_VERSION}

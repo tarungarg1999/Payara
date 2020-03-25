@@ -24,9 +24,9 @@ git checkout payara-blue
 git pull ${GITHUB_REMOTE} payara-blue
   
 # Create new branch
-git branch -D Payara-Blue-${VERSION}-Release
-git branch Payara-Blue-${VERSION}-Release
-git checkout Payara-Blue-${VERSION}-Release
+git branch -D PAYARA-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git branch PAYARA-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git checkout PAYARA-${JIRA_NUMBER}-Blue-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
@@ -36,18 +36,18 @@ sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/sr
 sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
   
 # Commit changes
-git commit -a -m "Increment version numbers"
+git commit -a -m "PAYARA-${JIRA_NUMBER} Increment version numbers"
 git tag -d payara-blue-${VERSION}.RC${RC_VERSION}
 git tag payara-blue-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${BITBUCKET_REMOTE} Payara-Blue-${VERSION}-Release --force
-git push ${BITBUCKET_REMOTE} payara-blue-${VERSION}.RC${RC_VERSION} --force
+git push ${BITBUCKET_REMOTE} PAYARA-${JIRA_NUMBER}-Blue-${VERSION}-Release --force
+git push ${BITBUCKET_REMOTE} PAYARA-${JIRA_NUMBER}-blue-${VERSION}.RC${RC_VERSION} --force
   
 # Create Version Increment Branch
-git branch -D Increment-Version-Numbers-Blue-4.${NEXT_MINOR_VERSION}
+git branch -D PAYARA-${JIRA_NUMBER}-Increment-Version-Numbers-Blue-4.${NEXT_MINOR_VERSION}
 git checkout payara-blue
-git checkout -b Increment-Version-Numbers-Blue-4.${NEXT_MINOR_VERSION}
+git checkout -b PAYARA-${JIRA_NUMBER}-Increment-Version-Numbers-Blue-4.${NEXT_MINOR_VERSION}
   
 # Update Version Numbers for payara-blue branch
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}-SNAPSHOT/g"
@@ -58,11 +58,11 @@ sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/a
  
 # Commit and push
 git add *
-git commit -m "Increment version numbers"
-git push ${GITHUB_REMOTE} Increment-Version-Numbers-Blue-4.${NEXT_MINOR_VERSION} --force
+git commit -m "PAYARA-${JIRA_NUMBER} Increment version numbers"
+git push ${GITHUB_REMOTE} PAYARA-${JIRA_NUMBER}-Increment-Version-Numbers-Blue-4.${NEXT_MINOR_VERSION} --force
   
 # Checkout Release Branch again
-git checkout Payara-Blue-${VERSION}-Release
+git checkout PAYARA-${JIRA_NUMBER}-Blue-${VERSION}-Release
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
