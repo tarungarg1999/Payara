@@ -23,9 +23,9 @@ git checkout master
 git pull ${GITHUB_REMOTE} master
   
 # Create new branch
-git branch -D Payara-${VERSION}-Release
-git branch Payara-${VERSION}-Release
-git checkout Payara-${VERSION}-Release
+git branch -D APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git branch APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
@@ -35,18 +35,18 @@ sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/sr
 sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
   
 # Commit changes
-git commit -a -m "Increment version numbers"
+git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
 git tag -d payara-server-${VERSION}.RC${RC_VERSION}
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${GITHUB_REMOTE} Payara-${VERSION}-Release --force
+git push ${GITHUB_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release --force
 git push ${GITHUB_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
   
 # Create Version Increment Branch
-git branch -D Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
+git branch -D APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
 git checkout master
-git checkout -b Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
+git checkout -b APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
   
 # Update Version Numbers for master branch
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}-SNAPSHOT/g"
@@ -56,11 +56,11 @@ sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/sr
 sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
   
 # Commit and push
-git commit -a -m "Increment version numbers"
-git push ${GITHUB_REMOTE} Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
+git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
+git push ${GITHUB_REMOTE} APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
   
 # Checkout Release Branch again
-git checkout Payara-${VERSION}-Release
+git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"

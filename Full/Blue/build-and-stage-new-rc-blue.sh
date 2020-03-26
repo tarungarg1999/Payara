@@ -24,8 +24,8 @@ git checkout payara-blue
 git pull ${GITHUB_REMOTE} payara-blue
   
 # Checkout release branch
-git checkout Payara-Blue-${VERSION}-Release
-git pull ${BITBUCKET_REMOTE} Payara-Blue-${VERSION}-Release
+git checkout CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git pull ${BITBUCKET_REMOTE} CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
   
 # Tag release
 git tag payara-blue-${VERSION}.RC${RC_VERSION}
