@@ -136,7 +136,7 @@ cd ..
 # Copy API Artefacts
 cp ${REPO_DIR}/api/payara-api/target/payara-api.jar Payara-API/payara-api-${VERSION}.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-javadoc.jar Payara-API/payara-api-${VERSION}-javadoc.jar
-cp ${REPO_DIR}/api/payara-api/target/payara-api-sources.jar Payara-API/payara-api-${VERISON}-sources.jar
+cp ${REPO_DIR}/api/payara-api/target/payara-api-sources.jar Payara-API/payara-api-${VERSION}-sources.jar
 
 # Copy EJB HTTP Artefacts
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar
