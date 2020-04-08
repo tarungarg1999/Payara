@@ -46,4 +46,3 @@ mvn deploy:deploy-file -DgroupId=fish.payara.extras -DartifactId=payara-source -
 
 mvn deploy:deploy-file -Dversion=${VERSION} -Dfile=Payara-API/payara-api-${VERSION}.jar -DpomFile=Payara-API/payara-api-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-patches/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-API/payara-api-${VERSION}-sources.jar -Djavadoc=Payara-API/payara-api-${VERSION}-javadoc.jar
 
-mvn deploy:deploy-file -Dversion=${VERSION} -Dfile=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar -DpomFile=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-patches/ -Djavax.net.ssl.trustStore=/tmp/mavenKeystore -Dsources=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar -Djavadoc=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
