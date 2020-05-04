@@ -17,10 +17,10 @@ git reset --hard HEAD
 git clean -fdx
   
 # Update Branches
-git fetch ${GITHUB_REMOTE}
-git fetch ${BITBUCKET_REMOTE}
+git fetch ${COMMUNITY_REMOTE}
+git fetch ${ENTERPRISE_REMOTE}
 git checkout master
-git pull ${GITHUB_REMOTE} master
+git pull ${COMMUNITY_REMOTE} master
   
 # Create new branch
 git branch -D APPSERV-${JIRA_NUMBER}-${VERSION}-Release
@@ -40,8 +40,8 @@ git tag -d payara-server-${VERSION}.RC${RC_VERSION}
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${GITHUB_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release --force
-git push ${GITHUB_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
+git push ${COMMUNITY_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release --force
+git push ${COMMUNITY_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
   
 # Create Version Increment Branch
 git branch -D APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
@@ -57,7 +57,7 @@ sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/a
   
 # Commit and push
 git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
-git push ${GITHUB_REMOTE} APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
+git push ${COMMUNITY_REMOTE} APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
   
 # Checkout Release Branch again
 git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release

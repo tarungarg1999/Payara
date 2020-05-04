@@ -17,20 +17,20 @@ git reset --hard HEAD
 git clean -fdx
   
 # Update Branches
-git fetch ${GITHUB_REMOTE}
-git fetch ${BITBUCKET_REMOTE}
+git fetch ${COMMUNITY_REMOTE}
+git fetch ${ENTERPRISE_REMOTE}
 git checkout master
-git pull ${GITHUB_REMOTE} master
+git pull ${COMMUNITY_REMOTE} master
   
 # Checkout release branch
 git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
-git pull ${GITHUB_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git pull ${COMMUNITY_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release
   
 # Tag release
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
 # Push tag
-git push ${GITHUB_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
+git push ${COMMUNITY_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"

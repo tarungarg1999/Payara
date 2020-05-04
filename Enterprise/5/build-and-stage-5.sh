@@ -16,12 +16,12 @@ git reset --hard HEAD
 git clean -fdx
   
 # Update Branches
-git fetch ${GITHUB_REMOTE}
-git fetch ${BITBUCKET_REMOTE}
+git fetch ${COMMUNITY_REMOTE}
+git fetch ${ENTERPRISE_REMOTE}
 git checkout master
-git pull ${GITHUB_REMOTE} master
+git pull ${COMMUNITY_REMOTE} master
 git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git pull ${BITBUCKET_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+git pull ${ENTERPRISE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
   
 # Create new branch
 git branch -D CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
@@ -39,8 +39,8 @@ git tag -d payara-enterprise-${VERSION}.RC${RC_VERSION}
 git tag payara-enterprise-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${BITBUCKET_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
-git push ${BITBUCKET_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
+git push ${ENTERPRISE_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
+git push ${ENTERPRISE_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
