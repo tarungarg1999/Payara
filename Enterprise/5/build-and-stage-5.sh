@@ -34,13 +34,13 @@ sed -i "s/update_version>${OLD_UPDATE_VERSION}</update_version>${UPDATE_VERSION}
 sed -i "s/update_version=${OLD_UPDATE_VERSION}/update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
   
 # Commit changes
-git commit -a -m "CUSTCOM-${JIRA_NUMBER} Increment version numbers"
-git tag -d payara-server-${VERSION}.RC${RC_VERSION}
-git tag payara-server-${VERSION}.RC${RC_VERSION}
+git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
+git tag -d payara-enterprise-${VERSION}.RC${RC_VERSION}
+git tag payara-enterprise-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${BITBUCKET_REMOTE} CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release --force
-git push ${BITBUCKET_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
+git push ${BITBUCKET_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
+git push ${BITBUCKET_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"

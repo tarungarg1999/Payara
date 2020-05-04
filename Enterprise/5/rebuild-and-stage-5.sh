@@ -16,7 +16,7 @@ git reset --hard HEAD
 git clean -fdx
 
 # Checkout release tag
-git checkout payara-server-${VERSION}.RC${RC_VERSION}
+git checkout payara-enterprise-${VERSION}.RC${RC_VERSION}
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
