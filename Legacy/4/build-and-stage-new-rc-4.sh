@@ -16,23 +16,23 @@ git reset --hard HEAD
 git clean -fdx
   
 # Update Branches
-git fetch ${COMMUNITY_REMOTE}
-git fetch ${ENTERPRISE_REMOTE}
+git fetch ${MASTER_REMOTE}
+git fetch ${MAINTENANCE_REMOTE}
 git checkout Payara4
-git pull ${COMMUNITY_REMOTE} Payara4
+git pull ${MASTER_REMOTE} Payara4
 git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git pull ${ENTERPRISE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+git pull ${MAINTENANCE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
   
 # Checkout and update release branch
 git checkout CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
-git pull ${ENTERPRISE_REMOTE} CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+git pull ${MAINTENANCE_REMOTE} CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
   
 # Tag release
 git tag -d payara-server-${VERSION}.RC${RC_VERSION}
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${ENTERPRISE_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
+git push ${MAINTENANCE_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
