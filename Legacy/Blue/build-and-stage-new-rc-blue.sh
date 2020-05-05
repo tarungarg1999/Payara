@@ -3,20 +3,37 @@
 #############################################################################
  
 # Read in properties file
-. ./release-config.properties
+. ./legacy-release-config.properties
  
 #############################################################################
-
-### Checkout correct version and build ###
+ 
+### Create branches, Update version, and Build ###
 # Move to Git Repo
 cd ${REPO_DIR}
-
+  
 # Reset and Cleanup
 git reset --hard HEAD
 git clean -fdx
-
-# Checkout release tag
-git checkout payara-blue-${VERSION}.RC${RC_VERSION}
+  
+# Update Branches
+git fetch ${COMMUNITY_REMOTE}
+git fetch ${ENTERPRISE_REMOTE}
+git checkout Payara4
+git pull ${COMMUNITY_REMOTE} Payara4
+git checkout payara-blue
+git pull ${COMMUNITY_REMOTE} payara-blue
+git checkout payara-blue-${MAINTENANCE_VERSION}.maintenance
+git pull ${ENTERPRISE_REMOTE} payara-blue-${MAINTENANCE_VERSION}.maintenance
+  
+# Checkout release branch
+git checkout CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git pull ${ENTERPRISE_REMOTE} CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
+    
+# Tag release
+git tag payara-blue-${VERSION}.RC${RC_VERSION}
+  
+# Push tag
+git push ${ENTERPRISE_REMOTE} payara-blue-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${BLUE_JDK8_PATH}/bin:${PATH}:${BLUE_JDK8_PATH}/bin"
@@ -113,6 +130,7 @@ cd ..
 # Create Source
 cd ${REPO_DIR}
 mvn pre-site -Psource
+mvn pre-site -Pjavadoc
 cd -
  
  

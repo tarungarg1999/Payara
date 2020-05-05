@@ -3,7 +3,7 @@
 #############################################################################
  
 # Read in properties file
-. ./release-config.properties
+. ./legacy-release-config.properties
  
 #############################################################################
  
@@ -23,15 +23,23 @@ git pull ${COMMUNITY_REMOTE} Payara4
 git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
 git pull ${ENTERPRISE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
   
-# Checkout and update release branch
+# Create new branch
+git branch -D CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+git branch CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
 git checkout CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
-git pull ${ENTERPRISE_REMOTE} CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
   
-# Tag release
+# Increment Versions
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
+sed -i "s/payara_update_version>${OLD_UPDATE_VERSION}</payara_update_version>${UPDATE_VERSION}</g" appserver/pom.xml
+sed -i "s/payara_update_version=${OLD_UPDATE_VERSION}/payara_update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+  
+# Commit changes
+git commit -a -m "CUSTCOM-${JIRA_NUMBER} Increment version numbers"
 git tag -d payara-server-${VERSION}.RC${RC_VERSION}
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
 # Push changes
+git push ${ENTERPRISE_REMOTE} CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release --force
 git push ${ENTERPRISE_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
@@ -47,16 +55,7 @@ cd -
  
 ################################################################################
   
-# Recreate ReleaseDirs
-rm -rf Payara
-rm -rf Payara-Web
-rm -rf Payara-ML
-rm -rf Payara-Web-ML
-rm -rf Payara-Micro
-rm -rf Payara-Embedded-All
-rm -rf Payara-Embedded-Web
-rm -rf SourceExport
-rm -rf Payara-API
+# Create ReleaseDirs
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML
@@ -66,7 +65,7 @@ mkdir Payara-Embedded-All
 mkdir Payara-Embedded-Web
 mkdir SourceExport
 mkdir Payara-API
-  
+
 # Copy Distributions
 cp ${REPO_DIR}/appserver/distributions/payara/target/payara.zip Payara/
 cp ${REPO_DIR}/appserver/distributions/payara-ml/target/payara-ml.zip Payara-ML/
@@ -127,7 +126,7 @@ cd Payara-Embedded-Web
 mv payara-embedded-web.jar payara-embedded-web-${VERSION}.jar
 rm -rf payara-embedded-web.jar
 cd ..
-  
+
 # Copy API Artefacts
 cp ${REPO_DIR}/api/payara-api/target/payara-api.jar Payara-API/payara-api-${VERSION}.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-javadoc.jar Payara-API/payara-api-${VERSION}-javadoc.jar
@@ -317,8 +316,8 @@ sed -i "s/version>${OLD_VERSION}</version>${VERSION}</g" Payara-API/payara-api-$
 sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${VERSION}</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara API</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${VERSION}.pom
-sed -i "s/description>Full Distribution of the Payara Project</description>Artefact that exposes public API of Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
- 
+sed -i "s/description>Full Description of the Payara Project</description>Artefact that exposes the public API of Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
+
 ################################################################################
  
 # Building JDK7 release
@@ -436,3 +435,4 @@ mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Embedd
 mvn deploy:deploy-file -DgroupId=fish.payara.extras -DartifactId=payara-source -Dversion=${VERSION}.RC${RC_VERSION} -Dpackaging=zip -Dfile=SourceExport/payara-source-${VERSION}.zip -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
 
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-API/payara-api-${VERSION}.jar -DpomFile=Payara-API/payara-api-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dsources=Payara-API/payara-api-${VERSION}-sources.jar -Djavadoc=Payara-API/payara-api-${VERSION}-javadoc.jar
+

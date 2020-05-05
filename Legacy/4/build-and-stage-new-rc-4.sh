@@ -3,11 +3,11 @@
 #############################################################################
  
 # Read in properties file
-. ./release-config.properties
+. ./legacy-release-config.properties
  
 #############################################################################
  
-### Checkout correct version and build ###
+### Create branches, Update version, and Build ###
 # Move to Git Repo
 cd ${REPO_DIR}
   
@@ -15,9 +15,25 @@ cd ${REPO_DIR}
 git reset --hard HEAD
 git clean -fdx
   
-# Checkout release tag
-git checkout payara-server-${VERSION}.RC${RC_VERSION}
-
+# Update Branches
+git fetch ${COMMUNITY_REMOTE}
+git fetch ${ENTERPRISE_REMOTE}
+git checkout Payara4
+git pull ${COMMUNITY_REMOTE} Payara4
+git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
+git pull ${ENTERPRISE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+  
+# Checkout and update release branch
+git checkout CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+git pull ${ENTERPRISE_REMOTE} CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+  
+# Tag release
+git tag -d payara-server-${VERSION}.RC${RC_VERSION}
+git tag payara-server-${VERSION}.RC${RC_VERSION}
+  
+# Push changes
+git push ${ENTERPRISE_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
+ 
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
@@ -302,7 +318,7 @@ sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${VERSION}</g" Pay
 sed -i "s/name>Payara Server</name>Payara API</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Artefact that exposes public API of Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
-  
+ 
 ################################################################################
  
 # Building JDK7 release

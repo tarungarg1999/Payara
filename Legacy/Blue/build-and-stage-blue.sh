@@ -3,7 +3,7 @@
 #############################################################################
  
 # Read in properties file
-. ./release-config.properties
+. ./legacy-release-config.properties
  
 #############################################################################
  
@@ -25,14 +25,23 @@ git pull ${COMMUNITY_REMOTE} payara-blue
 git checkout payara-blue-${MAINTENANCE_VERSION}.maintenance
 git pull ${ENTERPRISE_REMOTE} payara-blue-${MAINTENANCE_VERSION}.maintenance
   
-# Checkout release branch
+# Create new branch
+git branch -D CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git branch CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
 git checkout CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
-git pull ${ENTERPRISE_REMOTE} CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
-    
-# Tag release
+  
+# Increment Versions
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
+sed -i "s/payara_update_version>${OLD_UPDATE_VERSION}</payara_update_version>${UPDATE_VERSION}</g" appserver/pom.xml
+sed -i "s/payara_update_version=${OLD_UPDATE_VERSION}/payara_update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+  
+# Commit changes
+git commit -a -m "CUSTCOM-${JIRA_NUMBER} Increment version numbers"
+git tag -d payara-blue-${VERSION}.RC${RC_VERSION}
 git tag payara-blue-${VERSION}.RC${RC_VERSION}
   
-# Push tag
+# Push changes
+git push ${ENTERPRISE_REMOTE} CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release --force
 git push ${ENTERPRISE_REMOTE} payara-blue-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
@@ -48,15 +57,7 @@ cd -
  
 ################################################################################
   
-# Recreate ReleaseDirs
-rm -rf Payara-Blue
-rm -rf Payara-Blue-Web
-rm -rf Payara-Blue-ML
-rm -rf Payara-Blue-Web-ML
-rm -rf Payara-Blue-Micro
-rm -rf Payara-Blue-Embedded-All
-rm -rf Payara-Blue-Embedded-Web
-rm -rf SourceExport-Blue
+# Create ReleaseDirs
 mkdir Payara-Blue
 mkdir Payara-Blue-Web
 mkdir Payara-Blue-ML
@@ -127,10 +128,9 @@ mv payara-embedded-web.jar payara-embedded-web-${VERSION}.jar
 rm -rf payara-embedded-web.jar
 cd ..
   
-# Create Source
+# Create Source and Javadoc
 cd ${REPO_DIR}
 mvn pre-site -Psource
-mvn pre-site -Pjavadoc
 cd -
  
  
@@ -138,7 +138,7 @@ cd -
  
 RELEASE_DIR=$(pwd)
  
-# Copy Source
+# Copy Source and Javadoc
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Blue/payara-${VERSION}-sources.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Blue-ML/payara-ml-${VERSION}-sources.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Blue-Web/payara-web-${VERSION}-sources.jar
