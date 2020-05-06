@@ -20,8 +20,8 @@ git fetch ${MASTER_REMOTE}
 git fetch ${MAINTENANCE_REMOTE}
 git checkout master
 git pull ${MASTER_REMOTE} master
-git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git pull ${MAINTENANCE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+git checkout payara-enterprise-${MAINTENANCE_VERSION}.maintenance
+git pull ${MAINTENANCE_REMOTE} payara-enterprise-${MAINTENANCE_VERSION}.maintenance
   
 # Checkout release branch
 git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release

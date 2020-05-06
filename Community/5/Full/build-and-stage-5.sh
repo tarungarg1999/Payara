@@ -23,9 +23,9 @@ git checkout master
 git pull ${MASTER_REMOTE} master
   
 # Create new branch
-git branch -D APPSERV-${JIRA_NUMBER}-${VERSION}-Release
-git branch APPSERV-${JIRA_NUMBER}-${VERSION}-Release
-git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git branch -D QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
+git branch QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
@@ -35,18 +35,18 @@ sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/sr
 sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
   
 # Commit changes
-git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
+git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
 git tag -d payara-server-${VERSION}.RC${RC_VERSION}
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${MASTER_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release --force
+git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release --force
 git push ${MASTER_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
   
 # Create Version Increment Branch
-git branch -D APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
+git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
 git checkout master
-git checkout -b APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
+git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
   
 # Update Version Numbers for master branch
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}-SNAPSHOT/g"
@@ -56,11 +56,11 @@ sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/sr
 sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
   
 # Commit and push
-git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
-git push ${MASTER_REMOTE} APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
+git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
+git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
   
 # Checkout Release Branch again
-git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"

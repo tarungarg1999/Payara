@@ -23,9 +23,9 @@ git checkout master
 git pull ${MASTER_REMOTE} master
   
 # Create new branch
-git branch -D QACI-${JIRA_NUMBER}-${VERSION}-Release
-git branch QACI-${JIRA_NUMBER}-${VERSION}-Release
-git checkout QACI-${JIRA_NUMBER}-${VERSION}-Release
+git branch -D QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
+git branch QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
@@ -60,7 +60,7 @@ git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
 git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
   
 # Checkout Release Branch again
-git checkout QACI-${JIRA_NUMBER}-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
 
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"

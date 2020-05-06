@@ -23,8 +23,8 @@ git checkout master
 git pull ${MASTER_REMOTE} master
   
 # Checkout release branch
-git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
-git pull ${MASTER_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
+git pull ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
   
 # Tag release
 git tag payara-server-${VERSION}.RC${RC_VERSION}

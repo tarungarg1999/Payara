@@ -20,13 +20,13 @@ git fetch ${MASTER_REMOTE}
 git fetch ${MAINTENANCE_REMOTE}
 git checkout master
 git pull ${MASTER_REMOTE} master
-git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git pull ${MAINTENANCE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+git checkout payara-enterprise-${MAINTENANCE_VERSION}.maintenance
+git pull ${MAINTENANCE_REMOTE} payara-enterprise-${MAINTENANCE_VERSION}.maintenance
   
 # Create new branch
-git branch -D CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
-git branch CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
-git checkout CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+git branch -D QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
+git branch QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"

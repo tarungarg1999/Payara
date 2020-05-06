@@ -24,9 +24,9 @@ git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
 git pull ${MAINTENANCE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
   
 # Create new branch
-git branch -D CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
-git branch CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
-git checkout CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+git branch -D QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
+git branch QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
@@ -39,7 +39,7 @@ git tag -d payara-server-${VERSION}.RC${RC_VERSION}
 git tag payara-server-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${MAINTENANCE_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
+git push ${MAINTENANCE_REMOTE} QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release --force
 git push ${MAINTENANCE_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
