@@ -17,11 +17,10 @@ git clean -fdx
   
 # Update Branches
 git fetch ${MASTER_REMOTE}
-git fetch ${MAINTENANCE_REMOTE}
 git checkout master
 git pull ${MASTER_REMOTE} master
 git checkout payara-enterprise-${MAINTENANCE_VERSION}.maintenance
-git pull ${MAINTENANCE_REMOTE} payara-enterprise-${MAINTENANCE_VERSION}.maintenance
+git pull ${MASTER_REMOTE} payara-enterprise-${MAINTENANCE_VERSION}.maintenance
   
 # Create new branch
 git branch -D QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
@@ -39,8 +38,8 @@ git tag -d payara-enterprise-${VERSION}.RC${RC_VERSION}
 git tag payara-enterprise-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${MAINTENANCE_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
-git push ${MAINTENANCE_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
+git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
+git push ${MASTER_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"

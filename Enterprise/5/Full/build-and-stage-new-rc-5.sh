@@ -18,7 +18,6 @@ git clean -fdx
   
 # Update Branches
 git fetch ${MASTER_REMOTE}
-git fetch ${MAINTENANCE_REMOTE}
 git checkout master
 git pull ${MASTER_REMOTE} master
   
