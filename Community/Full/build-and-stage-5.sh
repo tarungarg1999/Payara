@@ -103,7 +103,6 @@ cd Payara
 unzip payara.zip
 zip -r payara-${VERSION}.zip payara5/
 tar -czvf payara-${VERSION}.tar.gz payara5/
-rm -rf payara.zip
 
 # Create and copy appclient
 ./payara5/glassfish/bin/package-appclient
