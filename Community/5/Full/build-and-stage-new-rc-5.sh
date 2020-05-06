@@ -5,19 +5,32 @@
 # Read in properties file
  
 . ./release-config.properties
-
+ 
 #############################################################################
-
-### Checkout correct version and build ###
+ 
+### Create branches, Update version, and Build ###
 # Move to Git Repo
 cd ${REPO_DIR}
-
+  
 # Reset and Cleanup
 git reset --hard HEAD
 git clean -fdx
-
-# Checkout release tag
-git checkout payara-server-${VERSION}.RC${RC_VERSION}
+  
+# Update Branches
+git fetch ${MASTER_REMOTE}
+git fetch ${MAINTENANCE_REMOTE}
+git checkout master
+git pull ${MASTER_REMOTE} master
+  
+# Checkout release branch
+git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git pull ${MASTER_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+  
+# Tag release
+git tag payara-server-${VERSION}.RC${RC_VERSION}
+  
+# Push tag
+git push ${MASTER_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
@@ -126,7 +139,7 @@ cp ${REPO_DIR}/api/payara-api/target/payara-api.jar Payara-API/payara-api-${VERS
 cp ${REPO_DIR}/api/payara-api/target/payara-api-javadoc.jar Payara-API/payara-api-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-sources.jar Payara-API/payara-api-${VERSION}-sources.jar
 
-# Copy EJB-Client Artefacts
+#Copy EJB-HTTP-Client Artefacts
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client-javadoc.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client-sources.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar
@@ -160,7 +173,7 @@ cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Micro/payara-micro-${
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Embedded-All/payara-embedded-all-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Embedded-Web/payara-embedded-web-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Appclient/payara-client-${VERSION}-javadoc.jar
-
+ 
 # Export Source
 cd ${REPO_DIR}
 git archive --format zip --output ${RELEASE_DIR}/SourceExport/payara-source-${VERSION}.zip Payara-${VERSION}-Release
@@ -330,9 +343,9 @@ sed -i "s/description>Full Distribution of the Payara Project</description>Appcl
 
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
 cp ${REPO_DIR}/api/payara-bom/target/flattened-pom.xml Payara-BOM/payara-bom-${VERSION}.pom
-   
+ 
 ################################################################################
-  
+
 # Upload to Nexus Staging
 rm pom.xml
    

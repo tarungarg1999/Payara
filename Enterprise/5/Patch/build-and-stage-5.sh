@@ -16,22 +16,31 @@ git reset --hard HEAD
 git clean -fdx
   
 # Update Branches
-git fetch ${COMMUNITY_REMOTE}
-git fetch ${ENTERPRISE_REMOTE}
+git fetch ${MASTER_REMOTE}
+git fetch ${MAINTENANCE_REMOTE}
 git checkout master
-git pull ${COMMUNITY_REMOTE} master
+git pull ${MASTER_REMOTE} master
 git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git pull ${ENTERPRISE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+git pull ${MAINTENANCE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
   
-# Checkout release branch
-git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
-git pull ${ENTERPRISE_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
+# Create new branch
+git branch -D CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+git branch CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+git checkout CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
   
-# Tag release
+# Increment Versions
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
+sed -i "s/update_version>${OLD_UPDATE_VERSION}</update_version>${UPDATE_VERSION}</g" appserver/pom.xml
+sed -i "s/update_version=${OLD_UPDATE_VERSION}/update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+  
+# Commit changes
+git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
+git tag -d payara-enterprise-${VERSION}.RC${RC_VERSION}
 git tag payara-enterprise-${VERSION}.RC${RC_VERSION}
   
-# Push tag
-git push ${ENTERPRISE_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
+# Push changes
+git push ${MAINTENANCE_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
+git push ${MAINTENANCE_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
@@ -46,19 +55,7 @@ cd -
  
 ################################################################################
   
-# Recreate ReleaseDirs
-rm -rf Payara
-rm -rf Payara-Web
-rm -rf Payara-ML
-rm -rf Payara-Web-ML
-rm -rf Payara-Micro
-rm -rf Payara-Embedded-All
-rm -rf Payara-Embedded-Web
-rm -rf SourceExport
-rm -rf Payara-API
-rm -rf Payara-EJB-HTTP-Client
-rm -rf Payara-Appclient
-rm -rf Payara-BOM
+# Create ReleaseDirs
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML
@@ -71,7 +68,7 @@ mkdir Payara-API
 mkdir Payara-EJB-HTTP-Client
 mkdir Payara-Appclient
 mkdir Payara-BOM
-
+  
 # Copy Distributions
 cp ${REPO_DIR}/appserver/distributions/payara/target/payara.zip Payara/
 cp ${REPO_DIR}/appserver/distributions/payara-ml/target/payara-ml.zip Payara-ML/
@@ -86,6 +83,7 @@ cd Payara
 unzip payara.zip
 zip -r payara-${VERSION}.zip payara5/
 tar -czvf payara-${VERSION}.tar.gz payara5/
+rm -rf payara.zip
 
 # Create and copy appclient
 ./payara5/glassfish/bin/package-appclient
@@ -94,7 +92,6 @@ cp payara5/glassfish/lib/appclient.jar ../Payara-Appclient/payara-client-${VERSI
 # Cleanup
 rm -rf payara5
 
-rm -rf payara.zip
 cd ..
    
 cd Payara-Web
@@ -166,7 +163,7 @@ cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Micro/payara-micro-${
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Embedded-All/payara-embedded-all-${VERSION}-sources.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Embedded-Web/payara-embedded-web-${VERSION}-sources.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Appclient/payara-client-${VERSION}-sources.jar
-
+  
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara/payara-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-ML/payara-ml-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Web/payara-web-${VERSION}-javadoc.jar
@@ -330,9 +327,9 @@ sed -i "s/artifactId>payara</artifactId>payara-api</g" Payara-API/payara-api-${V
 sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.api</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/version>${OLD_VERSION}</version>${VERSION}</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${VERSION}</g" Payara-API/payara-api-${VERSION}.pom
-sed -i "s/name>Payara Server</name>Payara API</g" Payara-API.payara-api-${VERSION}.pom
+sed -i "s/name>Payara Server</name>Payara API</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${VERSION}.pom
-sed -i "s/description>Full Distribution of the Payara Project</description>Artefact exposing the API for Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
+sed -i "s/description>Full Distribution of the Payara Project</description>Artefact that exposes public API of Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
 
 cp pom.xml Payara-Appclient/payara-client-${VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-client</g" Payara-Appclient/payara-client-${VERSION}.pom
@@ -345,7 +342,7 @@ sed -i "s/description>Full Distribution of the Payara Project</description>Appcl
 
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
 cp ${REPO_DIR}/api/payara-bom/target/flattened-pom.xml Payara-BOM/payara-bom-${VERSION}.pom
-
+ 
 ################################################################################
   
 # Upload to Nexus Staging

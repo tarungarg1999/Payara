@@ -5,19 +5,62 @@
 # Read in properties file
  
 . ./release-config.properties
-
+ 
 #############################################################################
-
-### Checkout correct version and build ###
+ 
+### Create branches, Update version, and Build ###
 # Move to Git Repo
 cd ${REPO_DIR}
-
+  
 # Reset and Cleanup
 git reset --hard HEAD
 git clean -fdx
-
-# Checkout release tag
-git checkout payara-server-${VERSION}.RC${RC_VERSION}
+  
+# Update Branches
+git fetch ${MASTER_REMOTE}
+git fetch ${MAINTENANCE_REMOTE}
+git checkout master
+git pull ${MASTER_REMOTE} master
+  
+# Create new branch
+git branch -D APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git branch APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+  
+# Increment Versions
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
+sed -i "s/minor_version>${OLD_MINOR_VERSION}-SNAPSHOT</minor_version>${OLD_MINOR_VERSION}</g" appserver/pom.xml
+sed -i "s/minor_version=${OLD_MINOR_VERSION}-SNAPSHOT/minor_version=${OLD_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+  
+# Commit changes
+git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
+git tag -d payara-server-${VERSION}.RC${RC_VERSION}
+git tag payara-server-${VERSION}.RC${RC_VERSION}
+  
+# Push changes
+git push ${MASTER_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release --force
+git push ${MASTER_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
+  
+# Create Version Increment Branch
+git branch -D APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
+git checkout master
+git checkout -b APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
+  
+# Update Version Numbers for master branch
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}-SNAPSHOT/g"
+sed -i "s/minor_version>${OLD_MINOR_VERSION}-SNAPSHOT</minor_version>${NEXT_MINOR_VERSION}-SNAPSHOT</g" appserver/pom.xml
+sed -i "s/minor_version=${OLD_MINOR_VERSION}-SNAPSHOT/minor_version=${NEXT_MINOR_VERSION}-SNAPSHOT/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+  
+# Commit and push
+git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
+git push ${MASTER_REMOTE} APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
+  
+# Checkout Release Branch again
+git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
@@ -32,19 +75,7 @@ cd -
  
 ################################################################################
   
-# Recreate ReleaseDirs
-rm -rf Payara
-rm -rf Payara-Web
-rm -rf Payara-ML
-rm -rf Payara-Web-ML
-rm -rf Payara-Micro
-rm -rf Payara-Embedded-All
-rm -rf Payara-Embedded-Web
-rm -rf SourceExport
-rm -rf Payara-API
-rm -rf Payara-EJB-HTTP-Client
-rm -rf Payara-Appclient
-rm -rf Payara-BOM
+# Create ReleaseDirs
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML
@@ -72,6 +103,7 @@ cd Payara
 unzip payara.zip
 zip -r payara-${VERSION}.zip payara5/
 tar -czvf payara-${VERSION}.tar.gz payara5/
+rm -rf payara.zip
 
 # Create and copy appclient
 ./payara5/glassfish/bin/package-appclient
@@ -125,8 +157,8 @@ cd ..
 cp ${REPO_DIR}/api/payara-api/target/payara-api.jar Payara-API/payara-api-${VERSION}.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-javadoc.jar Payara-API/payara-api-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-sources.jar Payara-API/payara-api-${VERSION}-sources.jar
-
-# Copy EJB-Client Artefacts
+ 
+# Copy EJB-HTTP-Client Artefacts
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client-javadoc.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client-sources.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar
@@ -160,7 +192,7 @@ cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Micro/payara-micro-${
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Embedded-All/payara-embedded-all-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Embedded-Web/payara-embedded-web-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Appclient/payara-client-${VERSION}-javadoc.jar
-
+ 
 # Export Source
 cd ${REPO_DIR}
 git archive --format zip --output ${RELEASE_DIR}/SourceExport/payara-source-${VERSION}.zip Payara-${VERSION}-Release
@@ -330,7 +362,7 @@ sed -i "s/description>Full Distribution of the Payara Project</description>Appcl
 
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/flattened-pom.xml Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom
 cp ${REPO_DIR}/api/payara-bom/target/flattened-pom.xml Payara-BOM/payara-bom-${VERSION}.pom
-   
+
 ################################################################################
   
 # Upload to Nexus Staging

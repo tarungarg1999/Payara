@@ -3,6 +3,7 @@
 #############################################################################
  
 # Read in properties file
+
 . ./release-config.properties
  
 #############################################################################
@@ -16,22 +17,22 @@ git reset --hard HEAD
 git clean -fdx
   
 # Update Branches
-git fetch ${COMMUNITY_REMOTE}
-git fetch ${ENTERPRISE_REMOTE}
+git fetch ${MASTER_REMOTE}
+git fetch ${MAINTENANCE_REMOTE}
 git checkout master
-git pull ${COMMUNITY_REMOTE} master
-git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git pull ${ENTERPRISE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+git pull ${MASTER_REMOTE} master
   
 # Create new branch
-git branch -D CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
-git branch CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
-git checkout CUSTCOM-${JIRA_NUMBER}-${VERSION}-Release
+git branch -D QACI-${JIRA_NUMBER}-${VERSION}-Release
+git branch QACI-${JIRA_NUMBER}-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
-sed -i "s/update_version>${OLD_UPDATE_VERSION}</update_version>${UPDATE_VERSION}</g" appserver/pom.xml
-sed -i "s/update_version=${OLD_UPDATE_VERSION}/update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/minor_version>${OLD_MINOR_VERSION}-SNAPSHOT</minor_version>${OLD_MINOR_VERSION}</g" appserver/pom.xml
+sed -i "s/minor_version=${OLD_MINOR_VERSION}-SNAPSHOT/minor_version=${OLD_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
   
 # Commit changes
 git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
@@ -39,9 +40,28 @@ git tag -d payara-enterprise-${VERSION}.RC${RC_VERSION}
 git tag payara-enterprise-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${ENTERPRISE_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
-git push ${ENTERPRISE_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
+git push ${MAINTENANCE_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release --force
+git push ${MAINTENANCE_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
  
+# Create Version Increment Branch
+git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
+git checkout master
+git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
+
+# Update Version Numbers for master branch
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}-SNAPSHOT/g"
+sed -i "s/minor_version>${OLD_MINOR_VERSION}-SNAPSHOT</minor_version>${NEXT_MINOR_VERSION}-SNAPSHOT</g" appserver/pom.xml
+sed -i "s/minor_version=${OLD_MINOR_VERSION}-SNAPSHOT/minor_version=${NEXT_MINOR_VERSION}-SNAPSHOT/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+
+# Commit and push
+git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
+git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
+  
+# Checkout Release Branch again
+git checkout QACI-${JIRA_NUMBER}-${VERSION}-Release
+
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
@@ -148,7 +168,7 @@ cd ${REPO_DIR}
 mvn pre-site -Psource
 mvn pre-site -Pjavadoc
 cd -
- 
+
  
 #################################################################################
  

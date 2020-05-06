@@ -3,7 +3,7 @@
 #############################################################################
  
 # Read in properties file
- 
+
 . ./release-config.properties
  
 #############################################################################
@@ -17,50 +17,20 @@ git reset --hard HEAD
 git clean -fdx
   
 # Update Branches
-git fetch ${COMMUNITY_REMOTE}
-git fetch ${ENTERPRISE_REMOTE}
+git fetch ${MASTER_REMOTE}
+git fetch ${MAINTENANCE_REMOTE}
 git checkout master
-git pull ${COMMUNITY_REMOTE} master
+git pull ${MASTER_REMOTE} master
   
-# Create new branch
-git branch -D APPSERV-${JIRA_NUMBER}-${VERSION}-Release
-git branch APPSERV-${JIRA_NUMBER}-${VERSION}-Release
-git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+# Checkout release branch
+git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
+git pull ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release
   
-# Increment Versions
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
-sed -i "s/minor_version>${OLD_MINOR_VERSION}-SNAPSHOT</minor_version>${OLD_MINOR_VERSION}</g" appserver/pom.xml
-sed -i "s/minor_version=${OLD_MINOR_VERSION}-SNAPSHOT/minor_version=${OLD_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
-sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
-sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+# Tag release
+git tag payara-enterprise-${VERSION}.RC${RC_VERSION}
   
-# Commit changes
-git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
-git tag -d payara-server-${VERSION}.RC${RC_VERSION}
-git tag payara-server-${VERSION}.RC${RC_VERSION}
-  
-# Push changes
-git push ${COMMUNITY_REMOTE} APPSERV-${JIRA_NUMBER}-${VERSION}-Release --force
-git push ${COMMUNITY_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
-  
-# Create Version Increment Branch
-git branch -D APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
-git checkout master
-git checkout -b APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION}
-  
-# Update Version Numbers for master branch
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_NEXT_VERSION}-SNAPSHOT/g"
-sed -i "s/minor_version>${OLD_MINOR_VERSION}-SNAPSHOT</minor_version>${NEXT_MINOR_VERSION}-SNAPSHOT</g" appserver/pom.xml
-sed -i "s/minor_version=${OLD_MINOR_VERSION}-SNAPSHOT/minor_version=${NEXT_MINOR_VERSION}-SNAPSHOT/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
-sed -i "s/${PREVIOUS_VERSION}/${VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
-sed -i "s/${PREVIOUS_MINOR_VERSION}/${OLD_MINOR_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
-  
-# Commit and push
-git commit -a -m "APPSERV-${JIRA_NUMBER} Increment version numbers"
-git push ${COMMUNITY_REMOTE} APPSERV-${JIRA_NUMBER}-Increment-Version-Numbers-5.${NEXT_MINOR_VERSION} --force
-  
-# Checkout Release Branch again
-git checkout APPSERV-${JIRA_NUMBER}-${VERSION}-Release
+# Push tag
+git push ${MASTER_REMOTE} payara-enterprise-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
@@ -68,14 +38,26 @@ export JAVA_HOME="${JDK8_PATH}"
  
 # Build
 MAVEN_OPTS="-Xmx2G -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts" \
-mvn clean install -PBuildExtras -Dbuild.number=${BUILD_NUMBER} -U
+mvn clean install -PBuildExtras,enterprise -Dbuild.number=${BUILD_NUMBER} -U
   
 # Move back
 cd -
  
 ################################################################################
   
-# Create ReleaseDirs
+# Recreate ReleaseDirs
+rm -rf Payara
+rm -rf Payara-Web
+rm -rf Payara-ML
+rm -rf Payara-Web-ML
+rm -rf Payara-Micro
+rm -rf Payara-Embedded-All
+rm -rf Payara-Embedded-Web
+rm -rf SourceExport
+rm -rf Payara-API
+rm -rf Payara-EJB-HTTP-Client
+rm -rf Payara-Appclient
+rm -rf Payara-BOM
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML
@@ -88,7 +70,7 @@ mkdir Payara-API
 mkdir Payara-EJB-HTTP-Client
 mkdir Payara-Appclient
 mkdir Payara-BOM
-  
+
 # Copy Distributions
 cp ${REPO_DIR}/appserver/distributions/payara/target/payara.zip Payara/
 cp ${REPO_DIR}/appserver/distributions/payara-ml/target/payara-ml.zip Payara-ML/
@@ -156,8 +138,8 @@ cd ..
 cp ${REPO_DIR}/api/payara-api/target/payara-api.jar Payara-API/payara-api-${VERSION}.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-javadoc.jar Payara-API/payara-api-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/api/payara-api/target/payara-api-sources.jar Payara-API/payara-api-${VERSION}-sources.jar
- 
-# Copy EJB-HTTP-Client Artefacts
+
+# Copy EJB HTTP Artefacts
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client-javadoc.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/ejb-http-client-sources.jar Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar
@@ -182,7 +164,7 @@ cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Micro/payara-micro-${
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Embedded-All/payara-embedded-all-${VERSION}-sources.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Embedded-Web/payara-embedded-web-${VERSION}-sources.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-sources.jar Payara-Appclient/payara-client-${VERSION}-sources.jar
-  
+
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara/payara-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-ML/payara-ml-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Web/payara-web-${VERSION}-javadoc.jar
@@ -191,7 +173,7 @@ cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Micro/payara-micro-${
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Embedded-All/payara-embedded-all-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Embedded-Web/payara-embedded-web-${VERSION}-javadoc.jar
 cp ${REPO_DIR}/target/payara-${VERSION}-javadoc.jar Payara-Appclient/payara-client-${VERSION}-javadoc.jar
- 
+
 # Export Source
 cd ${REPO_DIR}
 git archive --format zip --output ${RELEASE_DIR}/SourceExport/payara-source-${VERSION}.zip Payara-${VERSION}-Release
@@ -346,9 +328,9 @@ sed -i "s/artifactId>payara</artifactId>payara-api</g" Payara-API/payara-api-${V
 sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.api</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/version>${OLD_VERSION}</version>${VERSION}</g" Payara-API/payara-api-${VERSION}.pom
 sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${VERSION}</g" Payara-API/payara-api-${VERSION}.pom
-sed -i "s/name>Payara Server</name>Payara API</g" Payara-API/payara-api-${VERSION}.pom
+sed -i "s/name>Payara Server</name>Payara API</g" Payara-API.payara-api-${VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${VERSION}.pom
-sed -i "s/description>Full Distribution of the Payara Project</description>Artefact that exposes public API of Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
+sed -i "s/description>Full Distribution of the Payara Project</description>Artefact exposing the API for Payara Application Server</g" Payara-API/payara-api-${VERSION}.pom
 
 cp pom.xml Payara-Appclient/payara-client-${VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-client</g" Payara-Appclient/payara-client-${VERSION}.pom
@@ -363,120 +345,34 @@ cp ${REPO_DIR}/appserver/ejb/ejb-http-remoting/client/target/flattened-pom.xml P
 cp ${REPO_DIR}/api/payara-bom/target/flattened-pom.xml Payara-BOM/payara-bom-${VERSION}.pom
 
 ################################################################################
-
-# Build Enterprise Distribution
-
-# Move to repo dir
-cd ${REPO_DIR}
-
-# Build
-MAVEN_OPTS="-Xmx2G -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts" \
-mvn clean install -PBuildExtras,enterprise -Dbuild.number=${BUILD_NUMBER} -U
-  
-# Move back
-cd -
-
-# Copy Distributions
-cp ${REPO_DIR}/appserver/distributions/payara/target/payara.zip Payara/
-cp ${REPO_DIR}/appserver/distributions/payara-ml/target/payara-ml.zip Payara-ML/
-cp ${REPO_DIR}/appserver/distributions/payara-web/target/payara-web.zip Payara-Web/
-cp ${REPO_DIR}/appserver/distributions/payara-web-ml/target/payara-web-ml.zip Payara-Web-ML/
-cp ${REPO_DIR}/appserver/extras/payara-micro/payara-micro-distribution/target/payara-micro.jar Payara-Micro/
-cp ${REPO_DIR}/appserver/extras/embedded/all/target/payara-embedded-all.jar Payara-Embedded-All/
-cp ${REPO_DIR}/appserver/extras/embedded/web/target/payara-embedded-web.jar Payara-Embedded-Web/
-  
-# Rename and NetBeans fix
-cd Payara
-unzip payara.zip
-zip -r payara-${VERSION}-enterprise.zip payara5/
-tar -czvf payara-${VERSION}-enterprise.tar.gz payara5/
-
-# Create and copy appclient
-./payara5/glassfish/bin/package-appclient
-cp payara5/glassfish/lib/appclient.jar ../Payara-Appclient/payara-client-${VERSION}-enterprise.jar
-
-# Cleanup
-rm -rf payara5
-rm -rf payara.zip
-cd ..
-   
-cd Payara-Web
-unzip payara-web.zip
-zip -r payara-web-${VERSION}-enterprise.zip payara5/
-tar -czvf payara-web-${VERSION}-enterprise.tar.gz payara5/
-rm -rf payara5
-rm -rf payara-web.zip
-cd ..
-   
-cd Payara-ML
-unzip payara-ml.zip
-zip -r payara-ml-${VERSION}-enterprise.zip payara5/
-tar -czvf payara-ml-${VERSION}-enterprise.tar.gz payara5/
-rm -rf payara5
-rm -rf payara-ml.zip
-cd ..
-   
-cd Payara-Web-ML
-unzip payara-web-ml.zip
-zip -r payara-web-ml-${VERSION}-enterprise.zip payara5/
-tar -czvf payara-web-ml-${VERSION}-enterprise.tar.gz payara5/
-rm -rf payara5
-rm -rf payara-web-ml.zip
-cd ..
-   
-cd Payara-Micro
-mv payara-micro.jar payara-micro-${VERSION}-enterprise.jar
-cd ..
-   
-cd Payara-Embedded-All
-mv payara-embedded-all.jar payara-embedded-all-${VERSION}-enterprise.jar
-cd ..
-   
-cd Payara-Embedded-Web
-mv payara-embedded-web.jar payara-embedded-web-${VERSION}-enterprise.jar
-cd ..
-
-################################################################################
   
 # Upload to Nexus Staging
 rm pom.xml
    
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara/payara-${VERSION}.zip -Dsources=Payara/payara-${VERSION}-sources.jar -Djavadoc=Payara/payara-${VERSION}-javadoc.jar -DpomFile=Payara/payara-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara/payara-${VERSION}.tar.gz -DpomFile=Payara/payara-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=tar.gz
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara/payara-${VERSION}-enterprise.tar.gz -DpomFile=Payara/payara-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=tar.gz -Dclassifier=enterprise
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara/payara-${VERSION}-enterprise.zip -DpomFile=Payara/payara-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=zip -Dclassifier=enterprise
-
+    
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-ML/payara-ml-${VERSION}.zip -Dsources=Payara-ML/payara-ml-${VERSION}-sources.jar -Djavadoc=Payara-ML/payara-ml-${VERSION}-javadoc.jar -DpomFile=Payara-ML/payara-ml-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-ML/payara-ml-${VERSION}.tar.gz -DpomFile=Payara-ML/payara-ml-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=tar.gz
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-ML/payara-ml-${VERSION}-enterprise.tar.gz -DpomFile=Payara-ML/payara-ml-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=tar.gz -Dclassifier=enterprise
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-ML/payara-ml-${VERSION}-enterprise.zip -DpomFile=Payara-ML/payara-ml-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=zip -Dclassifier=enterprise
-
+    
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Web/payara-web-${VERSION}.zip -Dsources=Payara-Web/payara-web-${VERSION}-sources.jar -Djavadoc=Payara-Web/payara-web-${VERSION}-javadoc.jar -DpomFile=Payara-Web/payara-web-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Web/payara-web-${VERSION}.tar.gz -DpomFile=Payara-Web/payara-web-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=tar.gz
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Web/payara-web-${VERSION}-enterprise.tar.gz -DpomFile=Payara-Web/payara-web-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=tar.gz -Dclassifier=enterprise
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Web/payara-web-${VERSION}-enterprise.zip -DpomFile=Payara-Web/payara-web-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=zip -Dclassifier=enterprise
-
+    
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Web-ML/payara-web-ml-${VERSION}.zip -Dsources=Payara-Web-ML/payara-web-ml-${VERSION}-sources.jar -Djavadoc=Payara-Web-ML/payara-web-ml-${VERSION}-javadoc.jar -DpomFile=Payara-Web-ML/payara-web-ml-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Web-ML/payara-web-ml-${VERSION}.tar.gz -DpomFile=Payara-Web-ML/payara-web-ml-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=tar.gz
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Web-ML/payara-web-ml-${VERSION}-enterprise.tar.gz -DpomFile=Payara-Web-ML/payara-web-ml-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=tar.gz -Dclassifier=enterprise
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Web-ML/payara-web-ml-${VERSION}-enterprise.tar.gz -DpomFile=Payara-Web-ML/payara-web-ml-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dpackaging=zip -Dclassifier=enterprise
-
+   
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Micro/payara-micro-${VERSION}.jar -Dsources=Payara-Micro/payara-micro-${VERSION}-sources.jar -Djavadoc=Payara-Micro/payara-micro-${VERSION}-javadoc.jar -DpomFile=Payara-Micro/payara-micro-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Micro/payara-micro-${VERSION}-enterprise.jar -DpomFile=Payara-Micro/payara-micro-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dclassifier=enterprise
-
+   
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Embedded-All/payara-embedded-all-${VERSION}.jar -Dsources=Payara-Embedded-All/payara-embedded-all-${VERSION}-sources.jar -Djavadoc=Payara-Embedded-All/payara-embedded-all-${VERSION}-javadoc.jar -DpomFile=Payara-Embedded-All/payara-embedded-all-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Embedded-All/payara-embedded-all-${VERSION}-enterprise.jar -DpomFile=Payara-Embedded-All/payara-embedded-all-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dclassifier=enterprise
    
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Embedded-Web/payara-embedded-web-${VERSION}.jar -Dsources=Payara-Embedded-Web/payara-embedded-web-${VERSION}-sources.jar -Djavadoc=Payara-Embedded-Web/payara-embedded-web-${VERSION}-javadoc.jar -DpomFile=Payara-Embedded-Web/payara-embedded-web-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Embedded-Web/payara-embedded-web-${VERSION}-enterprise.jar -DpomFile=Payara-Embedded-Web/payara-embedded-web-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dclassifier=enterprise
    
 mvn deploy:deploy-file -DgroupId=fish.payara.extras -DartifactId=payara-source -Dversion=${VERSION}.RC${RC_VERSION} -Dpackaging=zip -Dfile=SourceExport/payara-source-${VERSION}.zip -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
- 
+
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-API/payara-api-${VERSION}.jar -DpomFile=Payara-API/payara-api-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dsources=Payara-API/payara-api-${VERSION}-sources.jar -Djavadoc=Payara-API/payara-api-${VERSION}-javadoc.jar
 
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.jar -DpomFile=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dsources=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-sources.jar -Djavadoc=Payara-EJB-HTTP-Client/ejb-http-client-${VERSION}-javadoc.jar
 
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Appclient/payara-client-${VERSION}.jar -DpomFile=Payara-Appclient/payara-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dsources=Payara-Appclient/payara-client-${VERSION}-sources.jar -Djavadoc=Payara-Appclient/payara-client-${VERSION}-javadoc.jar
-mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -Dfile=Payara-Appclient/payara-client-${VERSION}-enterprise.jar -DpomFile=Payara-Appclient/payara-client-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts -Dclassifier=enterprise
 
 mvn deploy:deploy-file -Dversion=${VERSION}.RC${RC_VERSION} -DpomFile=Payara-BOM/payara-bom-${VERSION}.pom -Dfile=Payara-BOM/payara-bom-${VERSION}.pom -DrepositoryId=payara-nexus -Durl=https://nexus.payara.fish/content/repositories/payara-staging/ -Djavax.net.ssl.trustStore=${JDK8_PATH}/jre/lib/security/cacerts
