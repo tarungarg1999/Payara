@@ -18,8 +18,7 @@ git clean -fdx
   
 # Update Branches
 git fetch ${MASTER_REMOTE}
-git checkout master
-git pull ${MASTER_REMOTE} master
+git checkout ${MASTER_REMOTE}/master
   
 # Create new branch
 git branch -D QACI-${JIRA_NUMBER}-Payara-Enterprise-${VERSION}-Release

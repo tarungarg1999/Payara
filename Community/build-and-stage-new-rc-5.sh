@@ -18,8 +18,7 @@ git clean -fdx
   
 # Update Branches
 git fetch ${MASTER_REMOTE}
-git checkout master
-git pull ${MASTER_REMOTE} master
+git checkout ${MASTER_REMOTE}/master
   
 # Checkout release branch
 git checkout QACI-${JIRA_NUMBER}-Payara-${VERSION}-Release
