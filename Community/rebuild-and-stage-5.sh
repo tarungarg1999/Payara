@@ -261,32 +261,32 @@ echo "</project>" >> pom.xml
 # Create POM Files
 cp pom.xml Payara/payara-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara</g" Payara/payara-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>$ESCAPED_RELEASE_VERSION}</g" Payara/payara-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara/payara-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>$ESCAPED_RELEASE_VERSION}</g" Payara/payara-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara/payara-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Server</g" Payara/payara-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>zip</g" Payara/payara-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Full Distribution of the Payara Project</g" Payara/payara-${RELEASE_VERSION}.pom
   
 cp pom.xml Payara-ML/payara-ml-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-ml</g" Payara-ML/payara-ml-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-ML/payara-ml-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-ML/payara-ml-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-ML/payara-ml-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-ML/payara-ml-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Server ML</g" Payara-ML/payara-ml-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>zip</g" Payara-ML/payara-ml-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Full ML Distribution of the Payara Project</g" Payara-ML/payara-ml-${RELEASE_VERSION}.pom
   
 cp pom.xml Payara-Web/payara-web-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-web</g" Payara-Web/payara-web-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Web/payara-web-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Web/payara-web-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Web/payara-web-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Web/payara-web-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Web</g" Payara-Web/payara-web-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>zip</g" Payara-Web/payara-web-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Web Distribution of the Payara Project</g" Payara-Web/payara-web-${RELEASE_VERSION}.pom
   
 cp pom.xml Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-web-ml</g" Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Web ML</g" Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>zip</g" Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Web ML Distribution of the Payara Project</g" Payara-Web-ML/payara-web-ml-${RELEASE_VERSION}.pom
@@ -294,8 +294,8 @@ sed -i "s/description>Full Distribution of the Payara Project</description>Web M
 cp pom.xml Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-micro</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
 sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.extras</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Micro</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Micro Distribution of the Payara Project</g" Payara-Micro/payara-micro-${RELEASE_VERSION}.pom
@@ -303,8 +303,8 @@ sed -i "s/description>Full Distribution of the Payara Project</description>Micro
 cp pom.xml Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-embedded-all</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
 sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.extras</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Embedded-All</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Embedded-All Distribution of the Payara Project</g" Payara-Embedded-All/payara-embedded-all-${RELEASE_VERSION}.pom
@@ -312,8 +312,8 @@ sed -i "s/description>Full Distribution of the Payara Project</description>Embed
 cp pom.xml Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-embedded-web</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
 sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.extras</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Embedded-Web</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Embedded-Web Distribution of the Payara Project</g" Payara-Embedded-Web/payara-embedded-web-${RELEASE_VERSION}.pom
@@ -321,8 +321,8 @@ sed -i "s/description>Full Distribution of the Payara Project</description>Embed
 cp pom.xml Payara-API/payara-api-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-api</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
 sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.api</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara API</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Artefact that exposes public API of Payara Application Server</g" Payara-API/payara-api-${RELEASE_VERSION}.pom
@@ -330,8 +330,8 @@ sed -i "s/description>Full Distribution of the Payara Project</description>Artef
 cp pom.xml Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara-client</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
 sed -i "s/groupId>fish.payara.distributions</groupId>fish.payara.server.appclient</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
-sed -i "s/version>${ESCAPED_CURRENT_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
-sed -i "s/tag>payara-server-${ESCAPED_CURRENT_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
+sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Appclient</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>jar</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
 sed -i "s/description>Full Distribution of the Payara Project</description>Appclient for Payara Server</g" Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
