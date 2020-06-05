@@ -26,9 +26,9 @@ git checkout payara-blue-${MAINTENANCE_VERSION}.maintenance
 git pull ${MAINTENANCE_REMOTE} payara-blue-${MAINTENANCE_VERSION}.maintenance
   
 # Create new branch
-git branch -D CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
-git branch CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
-git checkout CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git branch -D QACI-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git branch QACI-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Blue-${VERSION}-Release
   
 # Increment Versions
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_VERSION}/g"
@@ -36,12 +36,12 @@ sed -i "s/payara_update_version>${OLD_UPDATE_VERSION}</payara_update_version>${U
 sed -i "s/payara_update_version=${OLD_UPDATE_VERSION}/payara_update_version=${UPDATE_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
   
 # Commit changes
-git commit -a -m "CUSTCOM-${JIRA_NUMBER} Increment version numbers"
+git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
 git tag -d payara-blue-${VERSION}.RC${RC_VERSION}
 git tag payara-blue-${VERSION}.RC${RC_VERSION}
   
 # Push changes
-git push ${MAINTENANCE_REMOTE} CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release --force
+git push ${MAINTENANCE_REMOTE} QACI-${JIRA_NUMBER}-Blue-${VERSION}-Release --force
 git push ${MAINTENANCE_REMOTE} payara-blue-${VERSION}.RC${RC_VERSION} --force
  
 # Ensure we're using JDK8

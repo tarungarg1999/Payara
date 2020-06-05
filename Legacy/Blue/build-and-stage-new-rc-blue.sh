@@ -26,8 +26,8 @@ git checkout payara-blue-${MAINTENANCE_VERSION}.maintenance
 git pull ${MAINTENANCE_REMOTE} payara-blue-${MAINTENANCE_VERSION}.maintenance
   
 # Checkout release branch
-git checkout CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
-git pull ${MAINTENANCE_REMOTE} CUSTCOM-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Blue-${VERSION}-Release
+git pull ${MAINTENANCE_REMOTE} QACI-${JIRA_NUMBER}-Blue-${VERSION}-Release
     
 # Tag release
 git tag payara-blue-${VERSION}.RC${RC_VERSION}
