@@ -34,7 +34,7 @@ git branch QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
 git checkout QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
   
 ### Increment Versions
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}/${ESCAPED_RELEASE_VERSION}/g"
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}-SNAPSHOT/${ESCAPED_RELEASE_VERSION}/g"
 
 # POM Versions
 sed -i "s/major_version>${CURRENT_MAJOR_VERSION}</major_version>${RELEASE_MAJOR_VERSION}</g" appserver/pom.xml
@@ -56,7 +56,7 @@ git checkout master
 git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
   
 ### Increment Versions For Master Branch
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}/${ESCAPED_FUTURE_VERSION}-SNAPSHOT/g"
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}-SNAPSHOT/${ESCAPED_FUTURE_VERSION}-SNAPSHOT/g"
 
 # POM Versions
 sed -i "s/major_version>${CURRENT_MAJOR_VERSION}</major_version>${FUTURE_MAJOR_VERSION}</g" appserver/pom.xml
