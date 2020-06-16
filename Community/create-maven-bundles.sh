@@ -55,7 +55,7 @@ gpg2 -ab Payara-API/payara-api-${RELEASE_VERSION}-javadoc.jar
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${RELEASE_VERSION}.pom
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${RELEASE_VERSION}.jar
 gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${RELEASE_VERSION}-sources.jar
-gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${RELEASE_VERSION}-javadoc.jarls
+gpg2 -ab Payara-EJB-HTTP-Client/ejb-http-client-${RELEASE_VERSION}-javadoc.jar
 
 gpg2 -ab Payara-Appclient/payara-client-${RELEASE_VERSION}.pom
 gpg2 -ab Payara-Appclient/payara-client-${RELEASE_VERSION}.jar
