@@ -261,7 +261,7 @@ echo "</project>" >> pom.xml
 # Create POM Files
 cp pom.xml Payara/payara-${RELEASE_VERSION}.pom
 sed -i "s/artifactId>payara</artifactId>payara</g" Payara/payara-${RELEASE_VERSION}.pom
-sed -i "s/version>${OLD_VERSION}</version>$ESCAPED_RELEASE_VERSION}</g" Payara/payara-${RELEASE_VERSION}.pom
+sed -i "s/version>${OLD_VERSION}</version>${ESCAPED_RELEASE_VERSION}</g" Payara/payara-${RELEASE_VERSION}.pom
 sed -i "s/tag>payara-server-${OLD_VERSION}</tag>payara-server-${ESCAPED_RELEASE_VERSION}</g" Payara/payara-${RELEASE_VERSION}.pom
 sed -i "s/name>Payara Server</name>Payara Server</g" Payara/payara-${RELEASE_VERSION}.pom
 sed -i "s/packaging>zip</packaging>zip</g" Payara/payara-${RELEASE_VERSION}.pom
