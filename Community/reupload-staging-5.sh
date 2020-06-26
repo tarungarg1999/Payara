@@ -11,6 +11,9 @@ RELEASE_VERSION="$RELEASE_MAJOR_VERSION.$RELEASE_MINOR_VERSION.$RELEASE_PATCH_VE
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
 
+# Enter correct release directory
+cd Releases/Community
+
 # Remove the base pom if it's present to prevent error
 rm pom.xml
 

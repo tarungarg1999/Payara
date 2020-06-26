@@ -58,6 +58,8 @@ cd -
 ################################################################################
   
 # Create ReleaseDirs
+mkdir Releases/Blue
+cd Releases/Blue
 mkdir Payara-Blue
 mkdir Payara-Blue-Web
 mkdir Payara-Blue-ML

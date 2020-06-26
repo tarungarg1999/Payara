@@ -9,6 +9,9 @@
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
 
+# Enter correct directory
+cd Releases/4
+
 # Remove the base pom if it's present to prevent error
 rm pom.xml
 

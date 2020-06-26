@@ -92,6 +92,8 @@ cd -
 ################################################################################
   
 # Create ReleaseDirs
+mkdir Releases/Community
+cd Releases/Community
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML

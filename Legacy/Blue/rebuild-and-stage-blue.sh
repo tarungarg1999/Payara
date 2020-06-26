@@ -32,6 +32,7 @@ cd -
 ################################################################################
   
 # Recreate ReleaseDirs
+cd Releases/Blue
 rm -rf Payara-Blue
 rm -rf Payara-Blue-Web
 rm -rf Payara-Blue-ML

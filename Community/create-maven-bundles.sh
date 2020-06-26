@@ -11,6 +11,9 @@ RELEASE_VERSION="$RELEASE_MAJOR_VERSION.$RELEASE_MINOR_VERSION.$RELEASE_PATCH_VE
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
 
+# Enter correct releases directory
+cd Releases/Community
+
 # Sign the Files
 gpg2 -ab Payara/payara-${RELEASE_VERSION}.pom
 gpg2 -ab Payara/payara-${RELEASE_VERSION}.zip
