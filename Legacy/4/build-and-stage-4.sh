@@ -56,6 +56,8 @@ cd -
 ################################################################################
   
 # Create ReleaseDirs
+mkdir Releases/4
+cd Releases/4
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML

@@ -32,6 +32,7 @@ cd -
 ################################################################################
   
 # Recreate ReleaseDirs
+cd Releases/4
 rm -rf Payara
 rm -rf Payara-Web
 rm -rf Payara-ML
