@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Read in properties file
-. ./release-config.properties
+. ./community-release-config.properties
 
 ##################################################################
 

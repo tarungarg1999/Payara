@@ -1,10 +1,10 @@
 #!/bin/bash
- 
+
 # Read in properties file
-. ./legacy-release-config.properties
- 
+. ./blue-release-config.properties
+
 ###############################################################################
- 
+
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
