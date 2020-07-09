@@ -1,12 +1,12 @@
 #!/bin/bash
-  
+
 # Read in properties file
-. ./release-config.properties
- 
+. ./enterprise-release-config.properties
+
 ###############################################################################
 
 RELEASE_VERSION="$RELEASE_MAJOR_VERSION.$RELEASE_MINOR_VERSION.$RELEASE_PATCH_VERSION"
- 
+
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
 export JAVA_HOME="${JDK8_PATH}"
