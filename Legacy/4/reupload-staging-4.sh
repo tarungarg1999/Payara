@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Read in properties file
-. ./4-release-config.properties
+. ./Legacy/legacy-release-config.properties
 
 ###############################################################################
 
