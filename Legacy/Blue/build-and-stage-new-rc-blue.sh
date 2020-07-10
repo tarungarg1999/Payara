@@ -3,7 +3,7 @@
 #############################################################################
 
 # Read in properties file
-. ./blue-release-config.properties
+. ./Legacy/legacy-release-config.properties
 
 #############################################################################
 

@@ -3,7 +3,7 @@
 #############################################################################
 
 # Read in properties file
-. ./enterprise-release-config.properties
+. ./Enterprise/enterprise-release-config.properties
 
 #############################################################################
 
