@@ -46,7 +46,7 @@ git push ${MAINTENANCE_REMOTE} payara-blue-${VERSION}.RC${RC_VERSION} --force
 
 # Create Version Increment Branch
 git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-Blue-${FUTURE_VERSION}
-git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
+git checkout payara-blue-${MAINTENANCE_VERSION}.maintenance
 git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-Blue-${FUTURE_VERSION}
 
 # Increment Versions For Master Branch
