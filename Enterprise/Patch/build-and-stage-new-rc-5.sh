@@ -53,19 +53,8 @@ cd -
 ################################################################################
 
 # Recreate ReleaseDirs
+rm -rf Releases/Enterprise
 cd Releases/Enterprise
-rm -rf Payara
-rm -rf Payara-Web
-rm -rf Payara-ML
-rm -rf Payara-Web-ML
-rm -rf Payara-Micro
-rm -rf Payara-Embedded-All
-rm -rf Payara-Embedded-Web
-rm -rf SourceExport
-rm -rf Payara-API
-rm -rf Payara-EJB-HTTP-Client
-rm -rf Payara-Appclient
-rm -rf Payara-BOM
 mkdir Payara
 mkdir Payara-Web
 mkdir Payara-ML

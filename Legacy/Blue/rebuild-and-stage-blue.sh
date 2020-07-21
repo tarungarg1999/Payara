@@ -32,15 +32,9 @@ cd -
 ################################################################################
 
 # Recreate ReleaseDirs
+rm -rf Releases/Blue
+mkdir Releases/Blue
 cd Releases/Blue
-rm -rf Payara-Blue
-rm -rf Payara-Blue-Web
-rm -rf Payara-Blue-ML
-rm -rf Payara-Blue-Web-ML
-rm -rf Payara-Blue-Micro
-rm -rf Payara-Blue-Embedded-All
-rm -rf Payara-Blue-Embedded-Web
-rm -rf SourceExport-Blue
 mkdir Payara-Blue
 mkdir Payara-Blue-Web
 mkdir Payara-Blue-ML
