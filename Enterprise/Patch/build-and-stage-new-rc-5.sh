@@ -54,6 +54,7 @@ cd -
 
 # Recreate ReleaseDirs
 rm -rf Releases/Enterprise
+mkdir Reeleases/Enterprise
 cd Releases/Enterprise
 mkdir Payara
 mkdir Payara-Web

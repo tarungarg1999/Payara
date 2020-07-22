@@ -53,6 +53,7 @@ cd -
 
 # Recreate ReleaseDirs
 rm -rf Releases/Community
+mkdir Releases/Community
 cd Releases/Community
 mkdir Payara
 mkdir Payara-Web
