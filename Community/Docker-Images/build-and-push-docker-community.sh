@@ -34,10 +34,6 @@ docker tag payara/server-web:latest payara/server-web:${RELEASE_VERSION}
 docker tag payara/micro:latest payara/micro:${RELEASE_VERSION}
 
 ### Push images to docker hub
-# Docker login - user will be prompted to enter details
-echo "Login using docker hub details"
-docker login
-
 docker push payara/server-node:latest
 docker push payara/server-node:${RELEASE_VERSION}
 docker push payara/server-node:${RELEASE_VERSION}-jdk11
