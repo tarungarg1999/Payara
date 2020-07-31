@@ -18,7 +18,7 @@ git checkout payara-server-${RELEASE_VERSION}
 
 # Remove all local docker images and build for jdk8 and jdk11
 docker system prune --all
-mvn clean install -PBuildExtras,BuildDockerImages -pl :docker-images -amd -Dbuild.number=${BUILD_NUMBER}
+mvn clean install -PBuildDockerImages -pl :docker-images -amd -Dbuild.number=${BUILD_NUMBER}
 
 ### Tag images for latest
 # Server Node
