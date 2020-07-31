@@ -4,7 +4,7 @@
 
 # Read in properties file
 
-. ./Community/community-release-config.properties
+. ./Enterprise/enterprise-release-config.properties
 
 #############################################################################
 
