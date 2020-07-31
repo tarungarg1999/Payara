@@ -25,46 +25,46 @@ cd -
 
 ### Tag images for latest
 # Server Node
-docker tag payara/server-node:${RELEASE_VERSION} nexus.payara.fish:18079/payara/server-node:${RELEASE_VERSION}
-docker tag payara/server-node:${RELEASE_VERSION}-jdk11 nexus.payara.fish:18079/payara/server-node:${RELEASE_VERSION}-jdk11
-docker tag nexus.payara.fish:18079/payara/server-node:${RELEASE_VERSION} nexus.payara.fish:18079/payara/server-node:latest
+docker tag payara/server-node:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}
+docker tag payara/server-node:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}-jdk11
+docker tag nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-node:latest
 
 # Server Full
-docker tag payara/server-full:${RELEASE_VERSION} nexus.payara.fish:18079/payara/server-full:${RELEASE_VERSION}
-docker tag payara/server-full:${RELEASE_VERSION}-jdk11 nexus.payara.fish:18079/payara/server-full:${RELEASE_VERSION}-jdk11
-docker tag nexus.payara.fish:18079/payara/server-full:${RELEASE_VERSION} nexus.payara.fish:18079/payara/server-full:latest
+docker tag payara/server-full:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-full:${RELEASE_VERSION}
+docker tag payara/server-full:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/server-full:${RELEASE_VERSION}-jdk11
+docker tag nexus.payara.fish:5000/payara/server-full:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-full:latest
 
 # Store server full as a tar for enterprise evaluation
 mkdir Releases/Enterprise/Docker
 docker save payara/server-full:${RELEASE_VERSION} > ./Releases/Enterprise/Docker/server-full.tar.gz
 
 # Server Web
-docker tag payara/server-web:${RELEASE_VERSION} nexus.payara.fish:18079/payara/server-web:${RELEASE_VERSION}
-docker tag payara/server-web:${RELEASE_VERSION}-jdk11 nexus.payara.fish:18079/payara/server-web:${RELEASE_VERSION}-jdk11
-docker tag nexus.payara.fish:18079/payara/server-web:${RELEASE_VERSION} nexus.payara.fish:18079/payara/server-web:latest
+docker tag payara/server-web:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION}
+docker tag payara/server-web:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION}-jdk11
+docker tag nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-web:latest
 
 # Micro
-docker tag payara/micro:${RELEASE_VERSION} nexus.payara.fish:18079/payara/micro:${RELEASE_VERSION}
-docker tag payara/micro:${RELEASE_VERSION}-jdk11 nexus.payara.fish:18079/payara/micro:${RELEASE_VERSION}-jdk11
-docker tag nexus.payara.fish:18079/payara/micro:${RELEASE_VERSION} nexus.payara.fish:18079/payara/micro:latest
+docker tag payara/micro:${RELEASE_VERSION} nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}
+docker tag payara/micro:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}-jdk11
+docker tag nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION} nexus.payara.fish:5000/payara/micro:latest
 
 ### Push images to docker hub
 # Docker login - user will be prompted to enter details
 echo "Login using nexus details - remember username is case sensitive too"
-docker login nexus.payara.fish:18079
+docker login nexus.payara.fish:5000
 
-docker push nexus.payara.fish:18079/payara/server-node:latest
-docker push nexus.payara.fish:18079/payara/server-node:${RELEASE_VERSION}
-docker push nexus.payara.fish:18079/payara/server-node:${RELEASE_VERSION}-jdk11
+docker push nexus.payara.fish:5000/payara/server-node:latest
+docker push nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}
+docker push nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}-jdk11
 
-docker push nexus.payara.fish:18079/payara/server-full:latest
-docker push nexus.payara.fish:18079/payara/server-full:${RELEASE_VERSION}
-docker push nexus.payara.fish:18079/payara/server-full:${RELEASE_VERSION}-jdk11
+docker push nexus.payara.fish:5000/payara/server-full:latest
+docker push nexus.payara.fish:5000/payara/server-full:${RELEASE_VERSION}
+docker push nexus.payara.fish:5000/payara/server-full:${RELEASE_VERSION}-jdk11
 
-docker push nexus.payara.fish:18079/payara/server-web:latest
-docker push nexus.payara.fish:18079/payara/server-web:${RELEASE_VERSION}
-docker push nexus.payara.fish:18079/payara/server-web:${RELEASE_VERSION}-jdk11
+docker push nexus.payara.fish:5000/payara/server-web:latest
+docker push nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION}
+docker push nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION}-jdk11
 
-docker push nexus.payara.fish:18079/payara/micro:latest
-docker push nexus.payara.fish:18079/payara/micro:${RELEASE_VERSION}
-docker push nexus.payara.fish:18079/payara/micro:${RELEASE_VERSION}-jdk11
+docker push nexus.payara.fish:5000/payara/micro:latest
+docker push nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}
+docker push nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}-jdk11
