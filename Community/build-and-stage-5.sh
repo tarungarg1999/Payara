@@ -52,7 +52,7 @@ git push ${MASTER_REMOTE} payara-server-${RELEASE_VERSION}.RC${RC_VERSION} --for
 
 # Create Version Increment Branch
 git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
-git checkout master
+git checkout ${MASTER_REMOTE}/master
 git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
 
 ### Increment Versions For Master Branch
