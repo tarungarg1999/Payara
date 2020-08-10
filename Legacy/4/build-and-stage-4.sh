@@ -20,8 +20,7 @@ git fetch ${MASTER_REMOTE}
 git fetch ${MAINTENANCE_REMOTE}
 git checkout Payara4
 git pull ${MASTER_REMOTE} Payara4
-git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git pull ${MAINTENANCE_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+git checkout ${MASTER_REMOTE}/payara-server-${MAINTENANCE_VERSION}.maintenance
 
 # Create new branch
 git branch -D QACI-${JIRA_NUMBER}-${VERSION}-Release
@@ -43,9 +42,9 @@ git push ${MAINTENANCE_REMOTE} QACI-${JIRA_NUMBER}-${VERSION}-Release --force
 git push ${MAINTENANCE_REMOTE} payara-server-${VERSION}.RC${RC_VERSION} --force
 
 # Create Version Increment Branch
-git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
-git checkout payara-server-${MAINTENANCE_VERSION}.maintenance
-git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
+git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${VERSION}
+git checkout ${MASTER_REMOTE}/payara-server-${MAINTENANCE_VERSION}.maintenance
+git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${VERSION}
 
 # Increment Versions For Master Branch
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_FUTURE_VERSION}/g"
@@ -57,10 +56,10 @@ sed -i "s/${ESCAPED_OLD_VERSION}/${ESCAPED_FUTURE_VERSION}/g" appserver/packager
 
 # Commit and push
 git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
-git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION} --force
+git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${VERSION} --force
 
 # Checkout Release Branch again
-git checkout QACI-${JIRA_NUMBER}-${RELEASE_VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-${VERSION}-Release
 
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"

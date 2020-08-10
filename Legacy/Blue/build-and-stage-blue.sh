@@ -22,8 +22,7 @@ git checkout Payara4
 git pull ${MASTER_REMOTE} Payara4
 git checkout payara-blue
 git pull ${MASTER_REMOTE} payara-blue
-git checkout payara-blue-${MAINTENANCE_VERSION}.maintenance
-git pull ${MAINTENANCE_REMOTE} payara-blue-${MAINTENANCE_VERSION}.maintenance
+git checkout ${MASTER_REMOTE}/payara-blue-${MAINTENANCE_VERSION}.maintenance
 
 # Create new branch
 git branch -D QACI-${JIRA_NUMBER}-Blue-${VERSION}-Release
@@ -46,7 +45,7 @@ git push ${MAINTENANCE_REMOTE} payara-blue-${VERSION}.RC${RC_VERSION} --force
 
 # Create Version Increment Branch
 git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-Blue-${FUTURE_VERSION}
-git checkout payara-blue-${MAINTENANCE_VERSION}.maintenance
+git checkout ${MASTER_REMOTE}/payara-blue-${MAINTENANCE_VERSION}.maintenance
 git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-Blue-${FUTURE_VERSION}
 
 # Increment Versions For Master Branch
@@ -62,7 +61,7 @@ git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
 git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-Blue-${FUTURE_VERSION} --force
 
 # Checkout Release Branch again
-git checkout QACI-${JIRA_NUMBER}-Blue-${RELEASE_VERSION}-Release
+git checkout QACI-${JIRA_NUMBER}-Blue-${VERSION}-Release
 
 # Ensure we're using JDK8
 export PATH="${BLUE_JDK8_PATH}/bin:${PATH}:${BLUE_JDK8_PATH}/bin"
