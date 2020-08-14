@@ -20,18 +20,18 @@ git checkout payara-server-${RELEASE_VERSION}
 docker system prune --all
 mvn clean install -PBuildDockerImages -pl :docker-images -amd -Dbuild.number=${BUILD_NUMBER}
 
-### Tag images for latest
+### Tag images for ${RELEASE_VERSION}
 # Server Node
-docker tag payara/server-node:latest payara/server-node:${RELEASE_VERSION}
+docker tag payara/server-node:${RELEASE_VERSION} payara/server-node:latest
 
 # Server Full
-docker tag payara/server-full:latest payara/server-full:${RELEASE_VERSION}
+docker tag payara/server-full:${RELEASE_VERSION} payara/server-full:latest
 
 # Server Web
-docker tag payara/server-web:latest payara/server-web:${RELEASE_VERSION}
+docker tag payara/server-web:${RELEASE_VERSION} payara/server-web:latest
 
 # Micro
-docker tag payara/micro:latest payara/micro:${RELEASE_VERSION}
+docker tag payara/micro:${RELEASE_VERSION} payara/micro:latest
 
 ### Push images to docker hub
 docker push payara/server-node:latest
