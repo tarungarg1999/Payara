@@ -48,7 +48,7 @@ docker tag payara/micro:${RELEASE_VERSION} nexus.payara.fish:5000/payara/micro:$
 docker tag payara/micro:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}-jdk11
 docker tag nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION} nexus.payara.fish:5000/payara/micro:latest
 
-### Push images to docker hub
+### Push images to Nexus
 docker push nexus.payara.fish:5000/payara/server-node:latest
 docker push nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}
 docker push nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}-jdk11
