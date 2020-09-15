@@ -22,7 +22,7 @@ git fetch ${MASTER_REMOTE}
 git checkout Payara4
 git pull ${MASTER_REMOTE} Payara4
 git checkout payara-server-${BASE_VERSION}.maintenance
-git pull ${MASTER_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
+git pull ${MASTER_REMOTE} payara-server-${BASE_VERSION}.maintenance
 
 # Checkout and update release branch
 git checkout QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
