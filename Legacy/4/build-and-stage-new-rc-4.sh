@@ -11,7 +11,7 @@
 # Move to Git Repo
 cd ${REPO_DIR}
 
-RELEASE_VERSION="4.1.2.191.$RELEASE_PATCH_VERSION"
+RELEASE_VERSION="$BASE_VERSION.$RELEASE_PATCH_VERSION"
 
 # Reset and Cleanup
 git reset --hard HEAD
@@ -21,7 +21,7 @@ git clean -fdx
 git fetch ${MASTER_REMOTE}
 git checkout Payara4
 git pull ${MASTER_REMOTE} Payara4
-git checkout payara-server-4.1.2.191.maintenance
+git checkout payara-server-${BASE_VERSION}.maintenance
 git pull ${MASTER_REMOTE} payara-server-${MAINTENANCE_VERSION}.maintenance
 
 # Checkout and update release branch

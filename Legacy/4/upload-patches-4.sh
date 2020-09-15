@@ -3,7 +3,7 @@
 # Read in properties file
 . ./Legacy/legacy-release-config.properties
 
-RELEASE_VERSION="4.1.2.191.$RELEASE_PATCH_VERSION"
+RELEASE_VERSION="$BASE_VERSION.$RELEASE_PATCH_VERSION"
 
 ###############################################################################
 
