@@ -31,9 +31,9 @@ git branch QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
 git checkout QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
 
 # Increment Versions
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}-SNAPSHOT/${ESCAPED_RELEASE_VERSION}/g"
-sed -i "s/payara_update_version>${RELEASE_PATCH_VERSION}-SNAPSHOT</payara_update_version>${RELEASE_PATCH_VERSION}</g" appserver/pom.xml
-sed -i "s/payara_update_version=${RELEASE_PATCH_VERSION}-SNAPSHOT/payara_update_version=${RELEASE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}-SNAPSHOT/${ESCAPED_FUTURE_VERSION}/g"
+sed -i "s/payara_update_version>${RELEASE_PATCH_VERSION}-SNAPSHOT</payara_update_version>${FUTURE_PATCH_VERSION}</g" appserver/pom.xml
+sed -i "s/payara_update_version=${RELEASE_PATCH_VERSION}-SNAPSHOT/payara_update_version=${FUTURE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 
 # Commit changes
 git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
@@ -45,9 +45,9 @@ git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release 
 git push ${MASTER_REMOTE} payara-server-${RELEASE_VERSION}.RC${RC_VERSION} --force
 
 # Create Version Increment Branch
-git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${RELEASE_VERSION}
+git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
 git checkout ${MASTER_REMOTE}/payara-server-${BASE_VERSION}.maintenance
-git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${RELEASE_VERSION}
+git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
 
 # Increment Versions For Master Branch
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}/${ESCAPED_FUTURE_VERSION}/g"
@@ -59,7 +59,7 @@ sed -i "s/${ESCAPED_RELEASE_VERSION}/${ESCAPED_FUTURE_VERSION}/g" appserver/pack
 
 # Commit and push
 git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
-git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${RELEASE_VERSION} --force
+git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION} --force
 
 # Checkout Release Branch again
 git checkout QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
