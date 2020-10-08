@@ -31,9 +31,9 @@ git branch QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
 git checkout QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
 
 # Increment Versions
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}-SNAPSHOT/${ESCAPED_FUTURE_VERSION}/g"
-sed -i "s/payara_update_version>${RELEASE_PATCH_VERSION}-SNAPSHOT</payara_update_version>${FUTURE_PATCH_VERSION}</g" appserver/pom.xml
-sed -i "s/payara_update_version=${RELEASE_PATCH_VERSION}-SNAPSHOT/payara_update_version=${FUTURE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}-SNAPSHOT/${ESCAPED_RELEASE_VERSION}/g"
+sed -i "s/payara_update_version>${RELEASE_PATCH_VERSION}-SNAPSHOT</payara_update_version>${RELEASE_PATCH_VERSION}</g" appserver/pom.xml
+sed -i "s/payara_update_version=${RELEASE_PATCH_VERSION}-SNAPSHOT/payara_update_version=${RELEASE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 
 # Commit changes
 git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
@@ -50,7 +50,7 @@ git checkout ${MASTER_REMOTE}/payara-server-${BASE_VERSION}.maintenance
 git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
 
 # Increment Versions For Master Branch
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}/${ESCAPED_FUTURE_VERSION}/g"
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}-SNAPSHOT/${ESCAPED_FUTURE_VERSION}/g"
 sed -i "s/payara_update_version>${RELEASE_PATCH_VERSION}-SNAPSHOT</payara_update_version>${FUTURE_PATCH_VERSION}-SNAPSHOT</g" appserver/pom.xml
 sed -i "s/update_version=${RELEASE_PATCH_VERSION}-SNAPSHOT/update_version=${FUTURE_PATCH_VERSION}-SNAPSHOT/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 
