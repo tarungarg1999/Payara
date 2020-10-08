@@ -29,7 +29,7 @@ docker tag payara/server-full:${RELEASE_VERSION} nexus.payara.fish:5000/payara/s
 
 # Store server full as a tar for enterprise evaluation
 mkdir Releases/4/Docker
-docker save payara/server-full:${RELEASE_VERSION} > ./Releases/4/Docker/server-full.tar.gz
+docker save payara/server-full:${RELEASE_VERSION} > ./Releases/4/Docker/payara-server-enterprise-evaluation-docker-server-full.tar.gz
 
 # Server Web
 docker tag payara/server-web:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION}
