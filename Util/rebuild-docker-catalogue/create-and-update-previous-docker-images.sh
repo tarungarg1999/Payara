@@ -11,7 +11,7 @@ if [ ! -f payara.versions ]; then
 fi
 
 if [ ! -d payara-enterprise ]; then
-    echo "Source code directory is not where expected."
+    echo "Source code directory is not where expected or does not exist."
     git clone $ENTERPRISE_REMOTE
 fi
 
