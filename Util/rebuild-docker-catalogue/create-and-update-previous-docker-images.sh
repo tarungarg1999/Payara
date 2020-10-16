@@ -14,7 +14,7 @@ if [ ! -f payara.versions ]; then
 fi
 
 #Should return 0. All payara versions should match the regex
-invalidVersions=$(grep -P -v -c "(5|4).(1.2.191|\d{2}).(\d+)" payara.versions)
+invalidVersions=$(grep -P -x -v -c "(5|4).(1.2.191|\d{2}).(\d+)" payara.versions)
 if [ ! ${invalidVersions} == 0 ]; then
     echo "There is a invalid version in payara.versions"
     #Return invalid versions
