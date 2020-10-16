@@ -14,11 +14,6 @@ docker push nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}
 
 ###Push JDK11 Versions & Images not applicable to Payara 4
 if [[ ${MAJOR_VERSION} != "4" ]]; then
-    docker push nexus.payara.fish:5000/payara/server-node:latest
-    docker push nexus.payara.fish:5000/payara/server-full:latest
-    docker push nexus.payara.fish:5000/payara/server-web:latest
-    docker push nexus.payara.fish:5000/payara/micro:latest
-    
     docker push nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}-jdk11
     docker push nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION}-jdk11
     docker push nexus.payara.fish:5000/payara/server-full:${RELEASE_VERSION}-jdk11
