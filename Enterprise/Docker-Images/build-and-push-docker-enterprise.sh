@@ -45,4 +45,10 @@ docker tag nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION} nexus.pay
 docker tag nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION} nexus.payara.fish:5000/payara/micro:latest
 
 ### Push images to Nexus
+docker push nexus.payara.fish:5000/payara/server-node:latest
+docker push nexus.payara.fish:5000/payara/server-full:latest
+docker push nexus.payara.fish:5000/payara/server-web:latest
+docker push nexus.payara.fish:5000/payara/micro:latest
+
+#Push the rest of the images up
 . ./Util/docker-push.sh ${RELEASE_VERSION}
