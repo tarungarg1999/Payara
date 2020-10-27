@@ -66,7 +66,7 @@ do
     fi
 
     docker system prune --all
-    #mvn clean install -PBuildDockerImages -Dpayara.version=$i -pl :docker-images -amd -U
+    mvn clean install -PBuildDockerImages -Dpayara.version=$i -pl :docker-images -amd -U
     
     cd $SCRIPTPATH
     ../docker-tag.sh ${i}
@@ -80,7 +80,6 @@ do
     read -r -p "ARE YOU SURE? [Y/n]" input
     input=${input,,} #Lower case
     if [[ $input =~ ^(yes|y)$ ]]; then
-    #	. ../docker-push ${i}
-    	echo "WOULD PUSH"
+        . ../docker-push ${i}
     fi
 done
