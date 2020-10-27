@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#cd into script location
-cd $(dirname $BASH_SOURCE)
-
 ##Variables
+
+SCRIPT=$(realpath $0)
+SCRIPTPATH=$(dirname $SCRIPT)
 
 REPO_DIR="./payara-enterprise"
 
@@ -11,6 +11,9 @@ REPO_DIR="./payara-enterprise"
 ENTERPRISE_REMOTE="git@github.com:payara/Payara-Enterprise.git"
 
 REGEX="(5|4).(1.2.191|\d{2}).(\d+)"
+
+#cd into script location
+cd $SCRIPTPATH
 
 ##Check payara.versions file exists
 
@@ -63,8 +66,11 @@ do
     fi
 
     docker system prune --all
-    mvn clean install -PBuildDockerImages -Dpayara.version=$i -pl :docker-images -amd -U
-    . ../docker-tag.sh ${i}
+    #mvn clean install -PBuildDockerImages -Dpayara.version=$i -pl :docker-images -amd -U
+    
+    cd $SCRIPTPATH
+    ../docker-tag.sh ${i}
+    cd -
     
     #WIP
     #. ../docker-test.sh ${i}
@@ -74,6 +80,7 @@ do
     read -r -p "ARE YOU SURE? [Y/n]" input
     input=${input,,} #Lower case
     if [[ $input =~ ^(yes|y)$ ]]; then
-    	. ../docker-push ${i}
+    #	. ../docker-push ${i}
+    	echo "WOULD PUSH"
     fi
 done
