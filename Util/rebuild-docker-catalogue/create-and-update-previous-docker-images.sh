@@ -8,7 +8,7 @@ cd $(dirname $BASH_SOURCE)
 REPO_DIR="./payara-enterprise"
 
 #Change to HTTPS if running locally
-ENTERPRISE_REMOTE="https://github.com/AlanRoth/payara-enterprise"
+ENTERPRISE_REMOTE="git@github.com:payara/Payara-Enterprise.git"
 
 REGEX="(5|4).(1.2.191|\d{2}).(\d+)"
 
