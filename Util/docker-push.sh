@@ -18,7 +18,7 @@ if [[ ${MAJOR_VERSION} != "4" ]]; then
     docker push nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION}-jdk11
     docker push nexus.payara.fish:5000/payara/server-full:${RELEASE_VERSION}-jdk11
     docker push nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}-jdk11
-    
+
     docker push nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}
 fi
 
