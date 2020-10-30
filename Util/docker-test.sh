@@ -51,14 +51,14 @@ function startContainer() {
     local distribution=$1
     local release_version=$2
     local entry_point=$3
-    if [[ ! -z $entry_point && $distribution != "micro" ]]; then
+    if [[ ! -z $entry_point && ! isMicro ]]; then
         CONTAINER_ID=$(docker run --entrypoint="$entry_point" -it -d payara/$distribution:$release_version)
         else
         CONTAINER_ID=$(docker run -it -d payara/$distribution:$release_version)
     fi
 }
 
-function stopAndremoveContainer() {
+function stopAndRemoveContainer() {
     docker rm $CONTAINER_ID -f
 }
 
@@ -189,21 +189,21 @@ fi
 for i in "${DISTRIBUTIONS[@]}"
 do  
     DISTRIBUTION=$i
-
+    
     ##TEST JDK 8 VERSIONS
     startContainer $DISTRIBUTION $RELEASE_VERSION "/bin/bash"
     
     testJDKVersion $LATEST_JDK8_VERSION
     testCertExpiry
     
-    stopAndremoveContainer
+    stopAndRemoveContainer
     
     startContainer $DISTRIBUTION $RELEASE_VERSION
     
     testServerLog
     testVersion
     
-    stopAndremoveContainer
+    stopAndRemoveContainer
     
     ##TEST JDK11 VERSIONS
     if [ $MAJOR_VERSION -ge 5 ]; then
@@ -212,14 +212,14 @@ do
         testJDKVersion $LATEST_JDK11_VERSION
         testCertExpiry
         
-        stopAndremoveContainer
+        stopAndRemoveContainer
         
         startContainer $DISTRIBUTION $RELEASE_VERSION-jdk11
         
         testServerLog
         testVersion
         
-        stopAndremoveContainer
+        stopAndRemoveContainer
     fi
 done
 
