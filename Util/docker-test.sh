@@ -105,7 +105,7 @@ function testJDKVersion() {
     RESULT=$(docker exec -it ${CONTAINER_ID} java -version 2>&1 | awk -F '"' '/version/ {print $2}')
     
     if ! assertResultEqual $jdk_version ; then
-    	report $jdk_version $RESULT "${FUNCNAME} $DISTRIBUTION $RELEASE_VERSION"
+    	report $jdk_version $RESULT "$FUNCNAME $DISTRIBUTION $RELEASE_VERSION"
     fi
 }
 
@@ -134,7 +134,7 @@ function testCertExpiry() {
     
     #No dates should be returned as being in the past - hence the check for empty string
     if ! assertResultEqual "" ; then
-    	report "No expired certificates" "$RESULT" "${FUNCNAME} $DISTRIBUTION $RELEASE_VERSION"
+    	report "No expired certificates" "$RESULT" "$FUNCNAME $DISTRIBUTION $RELEASE_VERSION"
     fi
 }
 
@@ -159,7 +159,7 @@ function testServerLog() {
     fi
 
     if ! assertResultEqual 0 ; then
-    	report "0" "${RESULT}" "$FUNCNAME $distribution $release_version"
+    	report "0" "${RESULT}" "$FUNCNAME $distribution $RELEASE_VERSION"
     fi
 }
 
@@ -175,7 +175,7 @@ function testVersion() {
     RESULT=$(docker exec -it ${CONTAINER_ID} $PAYARA_HOME/bin/asadmin version --local | grep -P -o "$RELEASE_VERSION")
     
     if ! assertResultEqual $RELEASE_VERSION ; then
-    	report "$RELEASE_VERSION" "$RESULT" "${FUNCNAME} $DISTRIBUTION $RELEASE_VERSION"
+    	report "$RELEASE_VERSION" "$RESULT" "$FUNCNAME $DISTRIBUTION $RELEASE_VERSION"
     fi
 }
 
