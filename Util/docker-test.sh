@@ -169,10 +169,10 @@ function testVersion() {
     fi
     
     if isMicro ; then
-        return 1
+        RESULT=$(docker exec -it ${CONTAINER_ID} java -jar payara-micro.jar --version | grep -P -o "$RELEASE_VERSION")
+    else
+    	RESULT=$(docker exec -it ${CONTAINER_ID} $PAYARA_HOME/bin/asadmin version --local | grep -P -o "$RELEASE_VERSION")
     fi
-    
-    RESULT=$(docker exec -it ${CONTAINER_ID} $PAYARA_HOME/bin/asadmin version --local | grep -P -o "$RELEASE_VERSION")
     
     if ! assertResultEqual $RELEASE_VERSION ; then
     	report "$RELEASE_VERSION" "$RESULT" "$FUNCNAME $DISTRIBUTION $RELEASE_VERSION"
