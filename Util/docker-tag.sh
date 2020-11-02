@@ -13,11 +13,11 @@ docker tag payara/server-web:${RELEASE_VERSION} nexus.payara.fish:5000/payara/se
 docker tag payara/micro:${RELEASE_VERSION} nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}
 
 ###Tag JDK11 Versions & Images not applicable to Payara 4
-if [[ ${MAJOR_VERSION} != "4" ]]; then
-    docker tag payara/server-node:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}
-    
+if [[ ${MAJOR_VERSION} -ne 4 ]]; then
     docker tag payara/server-node:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}-jdk11
     docker tag payara/server-full:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/server-full:${RELEASE_VERSION}-jdk11
     docker tag payara/server-web:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/server-web:${RELEASE_VERSION}-jdk11
     docker tag payara/micro:${RELEASE_VERSION}-jdk11 nexus.payara.fish:5000/payara/micro:${RELEASE_VERSION}-jdk11
+    
+    docker tag payara/server-node:${RELEASE_VERSION} nexus.payara.fish:5000/payara/server-node:${RELEASE_VERSION}
 fi
