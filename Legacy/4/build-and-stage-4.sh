@@ -51,20 +51,20 @@ sed -i "s/${ESCAPED_CURRENT_VERSION}/${ESCAPED_RELEASE_VERSION}/g" appserver/pac
 git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers for Release"
 
 ## Increment Versions For Master
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}-SNAPSHOT/${ESCAPED_FUTURE_VERSION}-SNAPSHOT/g"
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}-SNAPSHOT/${ESCAPED_FUTURE_VERSION}-SNAPSHOT/g"
 
 # POM Versions
-sed -i "s/major_version>${CURRENT_MAJOR_VERSION}</major_version>${FUTURE_MAJOR_VERSION}</g" appserver/pom.xml
-sed -i "s/minor_version>${CURRENT_MINOR_VERSION}</minor_version>${FUTURE_MINOR_VERSION}</g" appserver/pom.xml
-sed -i "s/update_version>${CURRENT_PATCH_VERSION}-SNAPSHOT</update_version>${FUTURE_PATCH_VERSION}-SNAPSHOT</g" appserver/pom.xml
+sed -i "s/major_version>${RELEASE_MAJOR_VERSION}</major_version>${FUTURE_MAJOR_VERSION}</g" appserver/pom.xml
+sed -i "s/minor_version>${RELEASE_MINOR_VERSION}</minor_version>${FUTURE_MINOR_VERSION}</g" appserver/pom.xml
+sed -i "s/update_version>${RELEASE_PATCH_VERSION}-SNAPSHOT</update_version>${FUTURE_PATCH_VERSION}-SNAPSHOT</g" appserver/pom.xml
 
 # Glassfish Properties
-sed -i "s/major_version=${CURRENT_MAJOR_VERSION}/major_version=${FUTURE_MAJOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
-sed -i "s/minor_version=${CURRENT_MINOR_VERSION}/minor_version=${FUTURE_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
-sed -i "s/update_version=${CURRENT_PATCH_VERSION}/update_version=${FUTURE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/major_version=${RELEASE_MAJOR_VERSION}/major_version=${FUTURE_MAJOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/minor_version=${RELEASE_MINOR_VERSION}/minor_version=${FUTURE_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/update_version=${RELEASE_PATCH_VERSION}/update_version=${FUTURE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 
 # READMEs
-sed -i "s/${ESCAPED_CURRENT_VERSION}/${ESCAPED_FUTURE_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
+sed -i "s/${ESCAPED_RELEASE_VERSION}/${ESCAPED_FUTURE_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
 
 # Commit and push
 git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers for Master"
