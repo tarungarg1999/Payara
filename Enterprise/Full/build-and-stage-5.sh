@@ -28,34 +28,32 @@ git clean -fdx
 git fetch ${MASTER_REMOTE}
 git checkout ${MASTER_REMOTE}/master
 
-# Create new branch
-git branch -D QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release
-git branch QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release
-git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release
+### Increment the Versions ###
+# Create Version Increment Branch
+git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
+git checkout ${MASTER_REMOTE}/master
+git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION}
 
-### Increment Versions
-find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}-SNAPSHOT/${ESCAPED_RELEASE_VERSION}/g"
+## Increment Versions For Release
+find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}-SNAPSHOT/${ESCAPED_RELEASE_VERSION}-SNAPSHOT/g"
 
 # POM Versions
 sed -i "s/major_version>${CURRENT_MAJOR_VERSION}</major_version>${RELEASE_MAJOR_VERSION}</g" appserver/pom.xml
 sed -i "s/minor_version>${CURRENT_MINOR_VERSION}</minor_version>${RELEASE_MINOR_VERSION}</g" appserver/pom.xml
-sed -i "s/update_version>${CURRENT_PATCH_VERSION}-SNAPSHOT</update_version>${RELEASE_PATCH_VERSION}</g" appserver/pom.xml
+sed -i "s/update_version>${CURRENT_PATCH_VERSION}-SNAPSHOT</update_version>${RELEASE_PATCH_VERSION}-SNAPSHOT</g" appserver/pom.xml
 
-# Commit changes
-git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
-git tag -d payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION}
-git tag payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION}
+# Glassfish Properties
+sed -i "s/major_version=${CURRENT_MAJOR_VERSION}/major_version=${RELEASE_MAJOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/minor_version=${CURRENT_MINOR_VERSION}/minor_version=${RELEASE_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/update_version=${CURRENT_PATCH_VERSION}/update_version=${RELEASE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 
-# Push changes
-git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release --force
-git push ${MASTER_REMOTE} payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION} --force
+# READMEs
+sed -i "s/${ESCAPED_CURRENT_VERSION}/${ESCAPED_RELEASE_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
 
-# Create Version Increment Branch
-git branch -D QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${RELEASE_VERSION}
-git checkout ${MASTER_REMOTE}/master
-git checkout -b QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${RELEASE_VERSION}
+# Commit
+git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers for Release"
 
-### Increment Versions For Master Branch
+## Increment Versions For Master
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}-SNAPSHOT/${ESCAPED_FUTURE_VERSION}-SNAPSHOT/g"
 
 # POM Versions
@@ -72,11 +70,20 @@ sed -i "s/update_version=${CURRENT_PATCH_VERSION}/update_version=${FUTURE_PATCH_
 sed -i "s/${ESCAPED_CURRENT_VERSION}/${ESCAPED_FUTURE_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
 
 # Commit and push
-git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers"
-git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${RELEASE_VERSION} --force
+git commit -a -m "QACI-${JIRA_NUMBER} Increment version numbers for Master"
+git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Increment-Version-Numbers-${FUTURE_VERSION} --force
 
-# Checkout Release Branch again
+### Create Release Branch ###
+# Create new branch
+git branch -D QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release
+git branch QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release HEAD~1
 git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release
+
+# Push changes & create RC tag
+git push ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release --force
+git tag -d payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION}
+git tag payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION}
+git push ${MASTER_REMOTE} payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION} --force
 
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
