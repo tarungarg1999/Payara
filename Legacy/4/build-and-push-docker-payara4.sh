@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #############################################################################
 
@@ -24,11 +24,11 @@ mvn clean install -PBuildDockerImages -pl :docker-images -amd -Dbuild.number=${B
 cd -
 
 ### Tag images
-. ./Util/docker-tag.sh ${RELEASE_VERSION}
+. ../Util/docker-tag.sh ${RELEASE_VERSION}
 
 # Store server full as a tar for enterprise evaluation
 mkdir Releases/4/Docker
 docker save payara/server-full:${RELEASE_VERSION} > ./Releases/4/Docker/payara-server-enterprise-evaluation-docker-server-full.tar.gz
 
 #Push Docker Images
-. /Util/docker-push.sh ${RELEASE_VERSION}
+. ../Util/docker-push.sh ${RELEASE_VERSION}
