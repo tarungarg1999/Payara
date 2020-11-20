@@ -29,8 +29,8 @@ git fetch ${MASTER_REMOTE}
 git checkout ${MASTER_REMOTE}/master
 
 # Checkout release branch
-git checkout QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release
-git pull ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-Enterprise-${RELEASE_VERSION}-Release
+git checkout Payara-Enterprise-${RELEASE_VERSION}-Release
+git pull ${MASTER_REMOTE} Payara-Enterprise-${RELEASE_VERSION}-Release
 
 # Tag release
 git tag payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION}

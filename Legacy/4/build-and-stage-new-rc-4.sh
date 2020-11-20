@@ -25,8 +25,8 @@ git checkout payara-server-${BASE_VERSION}.maintenance
 git pull ${MASTER_REMOTE} payara-server-${BASE_VERSION}.maintenance
 
 # Checkout and update release branch
-git checkout QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
-git pull ${MASTER_REMOTE} QACI-${JIRA_NUMBER}-Payara-${RELEASE_VERSION}-Release
+git checkout Payara-${RELEASE_VERSION}-Release
+git pull ${MASTER_REMOTE} Payara-${RELEASE_VERSION}-Release
 
 # Tag release
 git tag -d payara-server-${RELEASE_VERSION}.RC${RC_VERSION}
