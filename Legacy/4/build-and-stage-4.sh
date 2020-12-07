@@ -11,6 +11,9 @@
 # Move to Git Repo
 cd ${REPO_DIR}
 
+BASE_VERSION=4.1.2.191
+ESCAPED_BASE_VERSION=4\.1\.2\.191
+
 RELEASE_VERSION="$BASE_VERSION.$RELEASE_PATCH_VERSION"
 FUTURE_VERSION="$BASE_VERSION.$FUTURE_PATCH_VERSION"
 
@@ -28,20 +31,16 @@ git checkout ${MASTER_REMOTE}/payara-server-${BASE_VERSION}.maintenance
 ### Increment the Versions ###
 # Create Version Increment Branch
 git branch -D Increment-Version-Numbers-${FUTURE_VERSION}
-git checkout ${MASTER_REMOTE}/master
+git checkout ${MASTER_REMOTE}/payara-server-${BASE_VERSION}.maintenance
 git checkout -b Increment-Version-Numbers-${FUTURE_VERSION}
 
 ## Increment Versions For Release
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}-SNAPSHOT/${ESCAPED_RELEASE_VERSION}/g"
 
 # POM Versions
-sed -i "s/major_version>${CURRENT_MAJOR_VERSION}</major_version>${RELEASE_MAJOR_VERSION}</g" appserver/pom.xml
-sed -i "s/minor_version>${CURRENT_MINOR_VERSION}</minor_version>${RELEASE_MINOR_VERSION}</g" appserver/pom.xml
 sed -i "s/update_version>${CURRENT_PATCH_VERSION}-SNAPSHOT</update_version>${RELEASE_PATCH_VERSION}</g" appserver/pom.xml
 
 # Glassfish Properties
-sed -i "s/major_version=${CURRENT_MAJOR_VERSION}/major_version=${RELEASE_MAJOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
-sed -i "s/minor_version=${CURRENT_MINOR_VERSION}/minor_version=${RELEASE_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 sed -i "s/update_version=${CURRENT_PATCH_VERSION}/update_version=${RELEASE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 
 # READMEs
@@ -54,13 +53,9 @@ git commit -a -m "Increment version numbers for Release"
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_RELEASE_VERSION}/${ESCAPED_FUTURE_VERSION}-SNAPSHOT/g"
 
 # POM Versions
-sed -i "s/major_version>${RELEASE_MAJOR_VERSION}</major_version>${FUTURE_MAJOR_VERSION}</g" appserver/pom.xml
-sed -i "s/minor_version>${RELEASE_MINOR_VERSION}</minor_version>${FUTURE_MINOR_VERSION}</g" appserver/pom.xml
 sed -i "s/update_version>${RELEASE_PATCH_VERSION}</update_version>${FUTURE_PATCH_VERSION}-SNAPSHOT</g" appserver/pom.xml
 
 # Glassfish Properties
-sed -i "s/major_version=${RELEASE_MAJOR_VERSION}/major_version=${FUTURE_MAJOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
-sed -i "s/minor_version=${RELEASE_MINOR_VERSION}/minor_version=${FUTURE_MINOR_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 sed -i "s/update_version=${RELEASE_PATCH_VERSION}/update_version=${FUTURE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 
 # READMEs
@@ -90,8 +85,7 @@ export JAVA_HOME="${JDK8_PATH}"
 MAVEN_OPTS="-Xmx2G -Djavax.net.ssl.trustStore=${JAVA_HOME}/jre/lib/security/cacerts" \
 mvn clean install -PBuildExtras -Dbuild.number=${BUILD_NUMBER} -U
 
-# Move back
-cd -
+
 
 ################################################################################
 
