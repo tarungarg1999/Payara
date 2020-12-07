@@ -80,10 +80,10 @@ git branch Payara-${RELEASE_VERSION}-Release HEAD~1
 git checkout Payara-${RELEASE_VERSION}-Release
 
 # Push changes & create RC tag
-git push ${MASTER_REMOTE} Payara-Enterprise-${RELEASE_VERSION}-Release --force
-git tag -d payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION}
-git tag payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION}
-git push ${MASTER_REMOTE} payara-enterprise-${RELEASE_VERSION}.RC${RC_VERSION} --force
+git push ${MASTER_REMOTE} Payara-${RELEASE_VERSION}-Release --force
+git tag -d payara-server-${RELEASE_VERSION}.RC${RC_VERSION}
+git tag payara-server-${RELEASE_VERSION}.RC${RC_VERSION}
+git push ${MASTER_REMOTE} payara-server-${RELEASE_VERSION}.RC${RC_VERSION} --force
 
 # Ensure we're using JDK8
 export PATH="${JDK8_PATH}/bin:${PATH}:${JDK8_PATH}/bin"
