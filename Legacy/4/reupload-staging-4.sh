@@ -3,6 +3,8 @@
 # Read in properties file
 . ./Legacy/legacy-release-config.properties
 
+BASE_VERSION=4.1.2.191
+
 RELEASE_VERSION="$BASE_VERSION.$RELEASE_PATCH_VERSION"
 
 ###############################################################################
