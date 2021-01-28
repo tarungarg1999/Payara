@@ -14,9 +14,11 @@ cd ${REPO_DIR}
 BASE_VERSION=4.1.2.191
 ESCAPED_BASE_VERSION=4\.1\.2\.191
 
+CURRENT_VERSION="$BASE_VERSION.$RELEASE_PATCH_VERSION"
 RELEASE_VERSION="$BASE_VERSION.$RELEASE_PATCH_VERSION"
 FUTURE_VERSION="$BASE_VERSION.$FUTURE_PATCH_VERSION"
 
+ESCAPED_CURRENT_VERSION="$ESCAPED_BASE_VERSION\.$RELEASE_PATCH_VERSION"
 ESCAPED_RELEASE_VERSION="${ESCAPED_BASE_VERSION}\.$RELEASE_PATCH_VERSION"
 ESCAPED_FUTURE_VERSION="${ESCAPED_BASE_VERSION}\.$FUTURE_PATCH_VERSION"
 
@@ -38,10 +40,10 @@ git checkout -b Increment-Version-Numbers-${FUTURE_VERSION}
 find . -name "pom.xml" -print0 | xargs -0 sed -i "s/${ESCAPED_CURRENT_VERSION}-SNAPSHOT/${ESCAPED_RELEASE_VERSION}/g"
 
 # POM Versions
-sed -i "s/update_version>${CURRENT_PATCH_VERSION}-SNAPSHOT</update_version>${RELEASE_PATCH_VERSION}</g" appserver/pom.xml
+sed -i "s/update_version>${RELEASE_PATCH_VERSION}-SNAPSHOT</update_version>${RELEASE_PATCH_VERSION}</g" appserver/pom.xml
 
 # Glassfish Properties
-sed -i "s/update_version=${CURRENT_PATCH_VERSION}/update_version=${RELEASE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
+sed -i "s/update_version=${RELEASE_PATCH_VERSION}/update_version=${RELEASE_PATCH_VERSION}/g" appserver/extras/payara-micro/payara-micro-boot/src/main/resources/MICRO-INF/domain/branding/glassfish-version.properties
 
 # READMEs
 sed -i "s/${ESCAPED_CURRENT_VERSION}/${ESCAPED_RELEASE_VERSION}/g" appserver/packager/appserver-base/src/main/docs/README.txt
