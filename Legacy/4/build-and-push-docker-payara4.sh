@@ -24,7 +24,7 @@ mvn clean install -PBuildDockerImages -pl :docker-images -amd -Dbuild.number=${B
 cd -
 
 ### Tag images
-. ../Util/docker-tag.sh ${RELEASE_VERSION}
+. ./Util/docker-tag.sh ${RELEASE_VERSION}
 
 # Store server full as a tar for enterprise evaluation
 mkdir Releases/4/Docker
