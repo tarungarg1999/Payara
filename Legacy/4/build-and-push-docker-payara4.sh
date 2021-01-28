@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #############################################################################
 
@@ -31,4 +31,4 @@ mkdir Releases/4/Docker
 docker save payara/server-full:${RELEASE_VERSION} > ./Releases/4/Docker/payara-server-enterprise-evaluation-docker-server-full.tar.gz
 
 #Push Docker Images
-. /Util/docker-push.sh ${RELEASE_VERSION}
+. ./Util/docker-push.sh ${RELEASE_VERSION}
