@@ -50,6 +50,8 @@
 package org.glassfish.admingui.common.servlet;
 
 import java.io.File;
+import io.whitesource.cure.FileSecurityUtils;
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.io.FileInputStream;
@@ -106,6 +108,11 @@ public class LBConfigContentSource  implements DownloadServlet.ContentSource {
             String lbFileName = "loadbalancer.xml." + lbName + "_LB_CONFIG." + dateFormat.format(date);
             String slbFile = tempDir + System.getProperty("file.separator") + lbFileName;
             File lbFile = new File(slbFile);
+	    if (FileSecurityUtils.isFileOutsideDir(lbFile.toString(),
+              tempDir + System.getProperty("file.separator") + "loadbalancer.xml.")) {
+             //TODO: Handle exception
+             throw new RuntimeException("Possible PathTraversal attack detected");
+            }
             attrsMap.put("id", slbFile);
             RestUtil.postRestRequestFromServlet(request, endpoint, attrsMap, true, true);
 	    tmpFile = new FileInputStream(lbFile);
